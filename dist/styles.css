@@ -1,0 +1,25 @@
+:root { --ink:#18334d; --accent:#186599; --paper:#f5fafd; --grid:#e2edf4; }
+* { box-sizing:border-box; }
+body { margin:0; background:#d9e3eb; color:var(--ink); font-family:Calibri,Arial,sans-serif; }
+.page { width:8.5in; min-height:11in; margin:24px auto; padding:18pt 22pt 14pt; background:var(--paper); position:relative; box-shadow:0 6px 28px #18334d26; }
+.sheet { min-height:718pt; background-image:linear-gradient(var(--grid) .3pt,transparent .3pt),linear-gradient(90deg,var(--grid) .3pt,transparent .3pt); background-size:12pt 12pt; }
+header { height:100pt; padding:12pt 11pt; background:var(--ink); color:white; }
+.eyebrow { display:flex; justify-content:space-between; color:#bdddf1; font:7.5pt Consolas,monospace; }
+h1 { font-size:39pt; line-height:1; margin:13pt 0 8pt; }
+.subtitle { font-size:11pt; margin:0; }
+.contact { font:8pt Consolas,monospace; margin:10pt 6pt 11pt; }
+.education { margin:0 6pt 11pt; font-size:10.1pt; line-height:12.5pt; }
+h2 { font-size:8.6pt; line-height:11pt; color:var(--accent); border-bottom:.7pt solid var(--accent); margin:0 0 4pt; padding-bottom:3pt; }
+.education p { margin:0; }
+.columns { display:grid; grid-template-columns:1fr 1fr; gap:28pt; margin:0 6pt; }
+article { break-inside:avoid; margin-bottom:4pt; }
+h3 { font-size:12.2pt; line-height:13.2pt; margin:0 0 2pt; }
+.meta { font-size:8pt; line-height:9.5pt; color:#45647c; margin:0 0 4pt; }
+.overview { color:var(--accent); font-size:10.9pt; line-height:12.76pt; margin:0 0 4pt; }
+ul { list-style:none; margin:0; padding:0; font-size:11pt; line-height:12.87pt; }
+li { position:relative; padding-left:9pt; margin-bottom:3pt; }
+li::before { content:"-"; position:absolute; left:0; color:var(--accent); }
+.small { font-size:10.1pt; line-height:12.7pt; margin:0; }
+footer { border-top:.5pt solid #b7c1c7; margin:10pt 6pt 0; padding-top:6pt; font-size:7.2pt; line-height:8.7pt; color:#45647c; }
+@page { size:letter; margin:0; }
+@media print { body { background:white; } .page { margin:0; box-shadow:none; } * { print-color-adjust:exact; -webkit-print-color-adjust:exact; } }

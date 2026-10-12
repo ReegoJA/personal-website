@@ -1,0 +1,76 @@
+:root { --gold: #99721e; --rule: #b5cbdc; --muted: #45647c; }
+
+[hidden] { display: none !important; }
+body { overflow-anchor: none; }
+button, input { font: inherit; }
+button { cursor: pointer; }
+.columns { align-items: start; }
+.columns > section { min-width: 0; }
+.inline-trigger { color: inherit; background: none; border: 0; padding: 0; text-align: left; }
+.inline-trigger:hover, .inline-trigger:focus-visible, a:hover { color: var(--gold) !important; }
+.interactive-entry { position: relative; }
+.entry-trigger, .entry-bullets { cursor: pointer; }
+.entry-trigger h3, .entry-trigger p, .entry-bullets li { transition: color 140ms; }
+.entry-trigger:hover h3, .entry-trigger:hover p, .entry-trigger:focus-visible h3,
+.entry-bullets:hover li, .entry-bullets:focus-visible li { color: var(--gold); }
+:focus-visible { outline: 1px solid var(--gold); outline-offset: 3px; }
+.entry-content { position: relative; }
+.margin-hint { position: fixed; color: #765719; font: 13px/1.5 Consolas, monospace; pointer-events: none; overflow-wrap: anywhere; }
+.expanded-content { padding: 5pt 0 10pt; }
+.demo-placeholder { min-height: 150pt; display: flex; flex-direction: column; align-items: center; justify-content: center; border: .5pt solid #8aaac1; background: #f5fafd66; padding: 16pt; text-align: center; }
+.demo-placeholder span { font: 9pt Consolas, monospace; color: var(--muted); }
+.demo-placeholder small { font: 7pt Consolas, monospace; color: var(--muted); margin-top: 8pt; }
+.expanded-description { font-size: 12pt; line-height: 16pt; margin: 12pt 0; }
+.collapse-button { background: var(--ink); color: white; border: 0; padding: 7pt 10pt; font: 9pt Calibri, Arial, sans-serif; }
+.collapse-button:hover { background: #245378; }
+.github-panel { margin: 0 6pt 16pt; padding: 12pt 0; border-top: .7pt solid var(--accent); border-bottom: .7pt solid var(--accent); }
+.github-toolbar { display: flex; justify-content: space-between; align-items: center; }
+.github-toolbar p { margin: 0; font-size: 11pt; }
+.github-toolbar button, .repo-tabs button, #more-repos, .file-back { border: .5pt solid var(--rule); padding: 5pt 8pt; background: var(--paper); color: var(--ink); font-size: 9pt; }
+.repository-layout { display: grid; grid-template-columns: 155pt minmax(0, 1fr); border: .5pt solid var(--rule); min-height: 340pt; margin: 12pt 0; background: #f5fafdde; }
+.repository-layout aside { border-right: .5pt solid var(--rule); padding: 10pt; }
+.repository-layout label { display: block; font-size: 9pt; margin-bottom: 6pt; }
+.repository-layout input { width: 100%; padding: 6pt; border: .5pt solid var(--rule); background: transparent; color: var(--ink); font-size: 9pt; }
+.repository-content { padding: 12pt; min-width: 0; }
+.repo-choice, .file-choice { display: block; width: 100%; text-align: left; background: none; border: 0; border-bottom: .5pt solid var(--rule); padding: 8pt 3pt; overflow-wrap: anywhere; color: var(--ink); font-size: 9pt; }
+.repo-choice small { display: block; color: var(--muted); font-size: 8pt; }
+.repo-choice:hover, .file-choice:hover { color: var(--gold); }
+.repo-choice[aria-pressed="true"] { background: #dfebf4; }
+.repo-tabs { display: flex; gap: 5pt; margin: 12pt 0; }
+.repo-tabs [aria-pressed="true"] { background: var(--ink); color: white; }
+.repo-heading-meta, .detail-note { color: var(--muted); font-size: 9pt; }
+.repository-content p { overflow-wrap: anywhere; }
+.file-back { margin-bottom: 8pt; }
+pre { max-height: 360pt; overflow: auto; padding: 12pt; background: #e8f0f6; font: 8pt/1.6 Consolas, monospace; tab-size: 2; }
+.activity-item { padding: 8pt 0; border-bottom: .5pt solid var(--rule); font-size: 10pt; }
+.activity-item p { margin: 3pt 0; }
+.activity-item small { color: var(--muted); }
+.sources-panel { margin: 12pt 6pt; }
+.source-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18pt; }
+.source-grid h3 { font-size: 11pt; }
+.source-grid a { display: block; color: var(--accent); margin: 6pt 0; font-size: 9pt; }
+.source-grid p { font-size: 9pt; line-height: 12pt; }
+.skip-link { position: absolute; top: -100px; left: 20px; background: white; padding: 10px; z-index: 2; }
+.skip-link:focus { top: 10px; }
+
+@media (max-width: 850px) {
+  .page { width: calc(100% - 32px); padding: 18pt 16pt 14pt; }
+  h1 { font-size: clamp(22pt, 5.2vw, 39pt); }
+  .contact { overflow-wrap: anywhere; }
+}
+
+@media (max-width: 560px) {
+  .page { width: calc(100% - 20px); margin: 10px auto; padding: 12pt; }
+  header { height: auto; min-height: 90pt; padding: 12pt; }
+  h1 { line-height: 1.1; }
+  .eyebrow { font-size: 5.5pt; gap: 12pt; }
+  .subtitle { font-size: 9pt; }
+  .columns, .source-grid { grid-template-columns: 1fr; gap: 18pt; }
+  .repository-layout { grid-template-columns: 1fr; }
+  .repository-layout aside { border-right: 0; border-bottom: .5pt solid var(--rule); }
+  #repo-list { max-height: 150pt; overflow: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
