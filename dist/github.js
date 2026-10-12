@@ -50,203 +50,307 @@ export function decodeFile(file) {
   return new TextDecoder('utf-8', {fatal: true}).decode(bytes);
 }
 
+function element(tag, text = '', className = '') {
+  const result = document.createElement(tag);
+  result.textContent = text;
+  result.className = className;
+  return result;
+}
+
+function button(text, action, className = '') {
+  const result = element('button', text, className);
+  result.type = 'button';
+  result.addEventListener('click', action);
+  return result;
+}
+
+function external(text, url) {
+  const link = element('a', text);
+  link.href = url;
+  link.target = '_blank';
+  link.rel = 'noopener noreferrer';
+  return link;
+}
+
 /**
- * Mounts a read-only repository browser within the portfolio.
- * @param {string} username Public GitHub account name.
+ * Groups returned public events by UTC date, without estimating contributions.
+ * @param {!Array<!Object>} events Events returned by GitHub.
+ * @return {!Map<string, number>} Event counts keyed by calendar date.
+ */
+export function countEventDays(events) {
+  const days = new Map();
+  for (const event of events) {
+    const day = event.created_at.slice(0, 10);
+    days.set(day, (days.get(day) || 0) + 1);
+  }
+  return days;
+}
+
+/**
+ * Mounts profile, repository, and public activity views inside the resume.
+ * @param {string} username Initial GitHub profile.
  */
 export function mountGithub(username) {
   const panel = document.querySelector('#github-section');
-  const status = document.querySelector('#github-status');
-  const list = document.querySelector('#repo-list');
-  const heading = document.querySelector('#repo-heading');
-  const view = document.querySelector('#repo-view');
-  const tabs = document.querySelector('#repo-tabs');
-  const search = document.querySelector('#repo-search');
-  const more = document.querySelector('#more-repos');
-  const refresh = document.querySelector('#refresh-github');
-  let repositories = [];
-  let selected = null;
-  let page = 1;
-  let loaded = false;
-  let loading = false;
+  const content = document.querySelector('#gh-content');
+  const tabs = document.querySelector('#gh-tabs');
+  const context = document.querySelector('#gh-context');
+  const back = document.querySelector('#gh-back');
+  const history = [];
+  let current = null;
   let revision = 0;
+  const encode = encodeURIComponent;
+  const profileRoute = (owner, tab = 'Overview') => ({kind: 'profile', owner, tab});
+  const repoRoute = (name, tab = 'Code') => ({kind: 'repo', name, tab});
+  const repoBase = (name) => '/repos/' + name.split('/').map(encode).join('/');
 
-  function node(tag, text, className = '') {
-    const element = document.createElement(tag);
-    element.textContent = text;
-    element.className = className;
-    return element;
+  function navigation(labels, active, action) {
+    tabs.replaceChildren(...labels.map((label) => {
+      const item = button(label, () => action(label));
+      item.setAttribute('aria-current', label === active ? 'page' : 'false');
+      return item;
+    }));
   }
 
-  function showError(error, target) {
-    const message = error.name === 'TimeoutError' ?
-      'GitHub took too long to respond. Please retry.' :
-      error.message || 'Unable to load GitHub content.';
-    target.replaceChildren(node('p', message, 'detail-note'));
+  function repoCard(repo, compact = false) {
+    const card = element('article', '', compact ? 'gh-repo-row' : 'gh-repo-card');
+    const title = button(repo.full_name, () => go(repoRoute(repo.full_name)), 'gh-link');
+    card.append(title, element('span', 'Public', 'gh-badge'));
+    card.append(element('p', repo.description || 'No description provided.'));
+    card.append(element('small', `${repo.language || 'Code'}  ·  ☆ ${repo.stargazers_count}  ·  Forks ${repo.forks_count}`));
+    return card;
   }
 
-  function renderRepositories() {
-    list.replaceChildren();
-    const query = search.value.trim().toLowerCase();
-    const matches = repositories.filter((repo) =>
-      repo.name.toLowerCase().includes(query));
-    for (const repo of matches) {
-      const button = node('button', repo.name, 'repo-choice');
-      button.type = 'button';
-      button.setAttribute('aria-pressed', String(selected?.id === repo.id));
-      button.append(node('small', repo.language || 'Repository'));
-      button.addEventListener('click', () => selectRepository(repo));
-      list.append(button);
-    }
-    if (!matches.length) {
-      list.append(node('p', 'No matching public repositories.', 'detail-note'));
-    }
+  function pagination(target, route, length) {
+    const pager = element('div', '', 'gh-pagination');
+    const page = route.page || 1;
+    const previous = button('Previous', () => go({...route, page: page - 1}));
+    previous.disabled = page === 1;
+    const next = button('Next', () => go({...route, page: page + 1}));
+    next.disabled = length < PAGE_SIZE;
+    pager.append(previous, element('span', `Page ${page}`), next);
+    target.append(pager);
   }
 
-  async function loadRepositories(reset = false) {
-    if (loading) return;
-    loading = true;
-    more.disabled = true;
-    refresh.disabled = true;
-    status.textContent = 'Loading public repositories…';
-    try {
-      if (reset) {
-        cache.clear();
-        page = 1;
-        repositories = [];
-        selected = null;
-        revision++;
-        heading.replaceChildren(node('p', 'Select a repository.'));
-        view.replaceChildren();
-        tabs.hidden = true;
+  async function profile(route, target) {
+    const owner = encode(route.owner);
+    const user = await requestGithub(`/users/${owner}`);
+    const layout = element('div', '', 'gh-profile');
+    const sidebar = element('aside', '', 'gh-profile-sidebar');
+    const avatar = element('img');
+    avatar.src = `https://avatars.githubusercontent.com/u/${Number(user.id)}?s=400`;
+    avatar.alt = `${user.login}'s GitHub avatar`;
+    avatar.width = 240;
+    avatar.height = 240;
+    sidebar.append(avatar, element('h3', user.name || user.login), element('p', user.login, 'gh-username'));
+    if (user.bio) sidebar.append(element('p', user.bio));
+    sidebar.append(external('Follow on GitHub ↗', `https://github.com/${encode(user.login)}`));
+    const people = element('p', '', 'gh-people');
+    people.append(button(`${user.followers} followers`, () => go(profileRoute(user.login, 'Followers'))), element('span', ' · '), button(`${user.following} following`, () => go(profileRoute(user.login, 'Following'))));
+    sidebar.append(people);
+    if (user.location) sidebar.append(element('p', user.location));
+    const main = element('div', '', 'gh-profile-main');
+    layout.append(sidebar, main);
+    target.append(layout);
+    if (route.tab === 'Overview') {
+      const repos = await requestGithub(`/users/${owner}/repos?sort=updated&per_page=30&page=1`);
+      main.append(element('h3', 'Popular repositories', 'gh-section-title'));
+      const cards = element('div', '', 'gh-repo-grid');
+      for (const repo of [...repos].sort((a, b) => b.stargazers_count - a.stargazers_count).slice(0, 6)) cards.append(repoCard(repo));
+      if (!repos.length) cards.append(element('p', 'No public repositories.'));
+      main.append(cards);
+      const activity = element('section', '', 'gh-activity');
+      main.append(activity);
+      try {
+        const events = await requestGithub(`/users/${owner}/events/public?per_page=100`);
+        activity.append(element('h3', 'Recent public activity', 'gh-section-title'));
+        const calendar = element('div', '', 'gh-calendar');
+        const days = countEventDays(events);
+        for (let offset = 90; offset >= 0; offset--) {
+          const date = new Date();
+          date.setUTCDate(date.getUTCDate() - offset);
+          const key = date.toISOString().slice(0, 10);
+          const count = days.get(key) || 0;
+          const cell = element('span', '', `gh-day gh-level-${Math.min(count, 4)}`);
+          cell.title = `${key}: ${count} returned public events`;
+          calendar.append(cell);
+        }
+        activity.append(calendar, element('p', 'Last 91 days · up to 100 returned public events. This is not the full GitHub contribution graph.', 'gh-note'));
+        for (const event of events.slice(0, 8)) {
+          const row = element('article', '', 'gh-event');
+          const labels = {PushEvent: 'Pushed to', CreateEvent: 'Created', WatchEvent: 'Starred', ForkEvent: 'Forked', IssuesEvent: 'Updated an issue in', PullRequestEvent: 'Updated a pull request in'};
+          row.append(element('small', event.created_at.slice(0, 10)), element('p', labels[event.type] || event.type.replace(/Event$/, '')));
+          row.append(button(event.repo.name, () => go(repoRoute(event.repo.name)), 'gh-link'));
+          activity.append(row);
+        }
+        if (!events.length) activity.append(element('p', 'No recent public events returned.'));
+      } catch (error) {
+        activity.append(element('p', error.message, 'gh-note'));
       }
-      const owner = encodeURIComponent(username);
-      const data = await requestGithub(
-          `/users/${owner}/repos?sort=updated&per_page=${PAGE_SIZE}&page=${page}`);
-      if (!Array.isArray(data)) throw new Error('Unexpected GitHub response.');
-      repositories.push(...data);
-      page++;
-      loaded = true;
-      more.hidden = data.length < PAGE_SIZE;
-      renderRepositories();
-      status.textContent = `${repositories.length} public repositories loaded.`;
-    } catch (error) {
-      status.textContent = error.message;
-      more.hidden = true;
-    } finally {
-      loading = false;
-      more.disabled = false;
-      refresh.disabled = false;
-    }
-  }
-
-  function selectRepository(repo) {
-    selected = repo;
-    heading.replaceChildren(node('h3', repo.name));
-    if (repo.description) heading.append(node('p', repo.description));
-    heading.append(node('p',
-        `${repo.language || 'Code'} / ${repo.stargazers_count} stars / ` +
-        `${repo.forks_count} forks`, 'repo-heading-meta'));
-    tabs.hidden = false;
-    renderRepositories();
-    showTab('code');
-  }
-
-  async function showTab(tab, path = '') {
-    if (!selected) return;
-    const current = ++revision;
-    const repo = selected;
-    const base = `/repos/${encodeURIComponent(username)}/` +
-      encodeURIComponent(repo.name);
-    for (const button of tabs.querySelectorAll('button')) {
-      button.setAttribute('aria-pressed', String(button.dataset.tab === tab));
-    }
-    view.replaceChildren(node('p', 'Loading…', 'detail-note'));
-    try {
-      const encodedPath = path.split('/').map(encodeURIComponent).join('/');
-      const suffix = tab === 'code' ? `/contents/${encodedPath}` :
-        `/${tab}?per_page=30&state=all`;
-      const data = await requestGithub(base + suffix);
-      // Ignore slow responses after the visitor chooses another view.
-      if (current !== revision) return;
-      view.replaceChildren();
-      if (tab === 'code') renderCode(data, path);
-      else renderActivity(data, tab);
-    } catch (error) {
-      if (current === revision) showError(error, view);
-    }
-  }
-
-  function renderCode(data, path) {
-    if (path) {
-      const back = node('button', '← Parent directory', 'file-back');
-      back.type = 'button';
-      back.addEventListener('click', () => {
-        showTab('code', path.split('/').slice(0, -1).join('/'));
-      });
-      view.append(back);
-    }
-    if (!Array.isArray(data)) {
-      const title = node('p', path, 'repo-heading-meta');
-      const code = node('code', decodeFile(data));
-      const pre = document.createElement('pre');
-      pre.tabIndex = 0;
-      pre.append(code);
-      view.append(title, pre);
       return;
     }
-    const entries = data.filter((entry) =>
-      !/\.(md|txt)$/i.test(entry.name) && entry.name !== 'LICENSE');
-    entries.sort((a, b) => {
-      if (a.type !== b.type) return a.type === 'dir' ? -1 : 1;
-      return a.name.localeCompare(b.name);
-    });
-    for (const entry of entries) {
-      const prefix = entry.type === 'dir' ? '+ ' : '  ';
-      const button = node('button', prefix + entry.name, 'file-choice');
-      button.type = 'button';
-      button.addEventListener('click', () => showTab('code', entry.path));
-      view.append(button);
+    const endpoints = {Repositories: 'repos?sort=updated', Stars: 'starred?sort=updated', Followers: 'followers?', Following: 'following?'};
+    if (!endpoints[route.tab]) {
+      main.append(element('h3', route.tab), element('p', `GitHub does not expose this profile's ${route.tab.toLowerCase()} through this public browser.`), external(`View ${route.tab.toLowerCase()} on GitHub ↗`, `https://github.com/${owner}?tab=${route.tab.toLowerCase()}`));
+      return;
     }
-    if (!entries.length) {
-      view.append(node('p', 'No previewable code in this directory.',
-          'detail-note'));
+    const data = await requestGithub(`/users/${owner}/${endpoints[route.tab]}&per_page=30&page=${route.page || 1}`);
+    main.append(element('h3', route.tab, 'gh-section-title'));
+    if (route.tab === 'Repositories' || route.tab === 'Stars') {
+      const filter = element('input');
+      filter.type = 'search';
+      filter.placeholder = 'Find a repository…';
+      filter.setAttribute('aria-label', 'Filter repositories on this page');
+      const results = element('div');
+      const render = () => {
+        const matches = data.filter((repo) => repo.full_name.toLowerCase().includes(filter.value.toLowerCase()));
+        results.replaceChildren(...matches.map((repo) => repoCard(repo, true)));
+        if (!matches.length) results.append(element('p', 'No matching repositories on this page.'));
+      };
+      filter.addEventListener('input', render);
+      main.append(filter, results);
+      render();
+    } else {
+      for (const person of data) main.append(button(person.login, () => go(profileRoute(person.login)), 'gh-person'));
+      if (!data.length) main.append(element('p', 'No public accounts to display.'));
     }
-    view.append(node('p',
-        'README and text documentation remain in the GitHub repository.',
-        'detail-note'));
+    pagination(main, route, data.length);
   }
 
-  function renderActivity(data, tab) {
-    const entries = tab === 'issues' ?
-      data.filter((item) => !item.pull_request) : data;
-    if (!entries.length) {
-      view.append(node('p', `No ${tab} to display.`, 'detail-note'));
-    }
-    for (const item of entries) {
-      const article = node('article', '', 'activity-item');
-      if (tab === 'commits') {
-        article.append(node('small', item.sha.slice(0, 7)));
-        article.append(node('p', item.commit.message));
-        article.append(node('small', item.commit.author.date.slice(0, 10)));
-      } else {
-        article.append(node('small', `#${item.number} / ${item.state}`));
-        article.append(node('p', item.title));
-        if (item.body) article.append(node('p', item.body));
+  async function repository(route, target) {
+    const base = repoBase(route.name);
+    const repo = await requestGithub(base);
+    const title = element('div', '', 'gh-repo-title');
+    title.append(button(repo.owner.login, () => go(profileRoute(repo.owner.login)), 'gh-link'), element('span', ' / '), button(repo.name, () => go(repoRoute(repo.full_name)), 'gh-link'), element('span', 'Public', 'gh-badge'));
+    target.append(title);
+    const layout = element('div', '', 'gh-repo-layout');
+    const main = element('div', '', 'gh-files');
+    const about = element('aside', '', 'gh-about');
+    about.append(element('h3', 'About'), element('p', repo.description || 'No description provided.'), element('p', `☆ ${repo.stargazers_count} stars`), element('p', `${repo.forks_count} forks`), element('p', repo.language || 'No language detected'));
+    about.append(external('View on GitHub ↗', repo.html_url));
+    layout.append(main, about);
+    target.append(layout);
+    if (route.tab === 'Code') {
+      const bar = element('div', '', 'gh-file-toolbar');
+      const branches = await requestGithub(`${base}/branches?per_page=100`);
+      const select = element('select');
+      select.setAttribute('aria-label', 'Repository branch');
+      for (const branch of branches) {
+        const option = element('option', branch.name);
+        option.value = branch.name;
+        option.selected = branch.name === (route.branch || repo.default_branch);
+        select.append(option);
       }
-      view.append(article);
+      select.addEventListener('change', () => go({...route, branch: select.value, path: ''}));
+      bar.append(select, button('Commits', () => go({...route, tab: 'Commits', page: 1})), external('Download ZIP ↗', `https://github.com/${route.name}/archive/refs/heads/${encode(route.branch || repo.default_branch)}.zip`));
+      main.append(bar);
+      const path = route.path || '';
+      if (path) main.append(button('← Parent directory', () => go({...route, path: path.split('/').slice(0, -1).join('/')}), 'gh-parent'));
+      const data = await requestGithub(`${base}/contents/${path.split('/').map(encode).join('/')}?ref=${encode(route.branch || repo.default_branch)}`);
+      if (Array.isArray(data)) {
+        const files = element('div', '', 'gh-file-table');
+        for (const file of [...data].sort((a, b) => (a.type === b.type ? a.name.localeCompare(b.name) : a.type === 'dir' ? -1 : 1))) {
+          files.append(button(`${file.type === 'dir' ? '▱' : '▤'}  ${file.name}`, () => go({...route, path: file.path}), 'gh-file'));
+        }
+        if (!data.length) files.append(element('p', 'Empty directory.'));
+        main.append(files);
+      } else {
+        main.append(element('p', path, 'gh-file-path'));
+        try {
+          const pre = element('pre', decodeFile(data), 'gh-code');
+          pre.tabIndex = 0;
+          main.append(pre);
+        } catch (error) {
+          main.append(element('p', error.message));
+          if (data.html_url) main.append(external('Open file on GitHub ↗', data.html_url));
+        }
+      }
+      return;
     }
-    view.append(node('p', 'Showing up to 30 recent items.', 'detail-note'));
+    const endpoint = {Issues: 'issues', 'Pull requests': 'pulls', Commits: 'commits', Releases: 'releases'}[route.tab];
+    let path = `${base}/${endpoint}`;
+    if (route.item) path += `/${route.item}`;
+    else path += `?state=all&per_page=30&page=${route.page || 1}${route.branch && endpoint === 'commits' ? `&sha=${encode(route.branch)}` : ''}`;
+    const data = await requestGithub(path);
+    if (route.item) {
+      main.append(button(`← ${route.tab}`, () => go({...route, item: null}), 'gh-parent'));
+      main.append(element('h3', data.title || data.commit?.message || data.name || data.tag_name));
+      if (data.body) main.append(element('pre', data.body, 'gh-prose'));
+      if (data.files) for (const file of data.files) {
+        main.append(element('h4', file.filename), element('pre', file.patch || 'Diff unavailable for this file.', 'gh-code'));
+      }
+      if (endpoint === 'issues' || endpoint === 'pulls') {
+        const comments = await requestGithub(`${base}/issues/${route.item}/comments?per_page=30`);
+        for (const comment of comments) {
+          const card = element('article', '', 'gh-comment');
+          card.append(button(comment.user.login, () => go(profileRoute(comment.user.login)), 'gh-link'), element('pre', comment.body, 'gh-prose'));
+          main.append(card);
+        }
+      }
+      if (data.html_url) main.append(external('Continue on GitHub ↗', data.html_url));
+      return;
+    }
+    const items = endpoint === 'issues' ? data.filter((item) => !item.pull_request) : data;
+    for (const item of items) {
+      const row = element('article', '', 'gh-list-item');
+      const text = item.title || item.commit?.message.split('\n')[0] || item.name || item.tag_name;
+      if (endpoint === 'releases') {
+        row.append(element('h3', text), element('pre', item.body || '', 'gh-prose'), external('Release downloads ↗', item.html_url));
+      } else {
+        row.append(button(text, () => go({...route, item: item.number || item.sha}), 'gh-link'));
+      }
+      row.append(element('small', item.sha?.slice(0, 7) || `#${item.number || item.tag_name} · ${item.state || 'Release'}`));
+      main.append(row);
+    }
+    if (!items.length) main.append(element('p', `No ${route.tab.toLowerCase()} on this page.`));
+    pagination(main, route, data.length);
+  }
+
+  async function search(route, target) {
+    const resource = route.tab === 'Users' ? 'users' : 'repositories';
+    const data = await requestGithub(`/search/${resource}?q=${encode(route.query)}&per_page=30&page=${route.page || 1}`);
+    target.append(element('h3', `${data.total_count} results for “${route.query}”`, 'gh-section-title'));
+    for (const item of data.items) {
+      target.append(resource === 'users' ? button(item.login, () => go(profileRoute(item.login)), 'gh-person') : repoCard(item, true));
+    }
+    if (!data.items.length) target.append(element('p', 'No results found.'));
+    pagination(target, route, data.items.length);
+  }
+
+  async function go(route, remember = true) {
+    if (remember && current) history.push(current);
+    current = route;
+    const active = ++revision;
+    back.disabled = !history.length;
+    context.textContent = route.owner || route.name || 'Search';
+    if (route.kind === 'profile') navigation(['Overview', 'Repositories', 'Projects', 'Packages', 'Stars'], route.tab, (tab) => go(profileRoute(route.owner, tab)));
+    else if (route.kind === 'repo') navigation(['Code', 'Issues', 'Pull requests', 'Commits', 'Releases'], route.tab, (tab) => go({...repoRoute(route.name, tab), branch: route.branch}));
+    else navigation(['Repositories', 'Users'], route.tab, (tab) => go({...route, tab, page: 1}));
+    const result = element('div');
+    content.replaceChildren(element('p', 'Loading GitHub…', 'gh-note'));
+    try {
+      if (route.kind === 'profile') await profile(route, result);
+      else if (route.kind === 'repo') await repository(route, result);
+      else await search(route, result);
+    } catch (error) {
+      result.append(element('p', error.message || 'Unable to load GitHub.', 'gh-error'), button('Retry', () => { cache.clear(); go(route, false); }));
+    }
+    // A slower response must not replace a newer navigation.
+    if (active === revision) content.replaceChildren(result);
   }
 
   panel.addEventListener('github-open', () => {
-    if (!loaded) loadRepositories();
+    if (!current) go(profileRoute(username));
   });
-  search.addEventListener('input', renderRepositories);
-  more.addEventListener('click', () => loadRepositories());
-  refresh.addEventListener('click', () => loadRepositories(true));
-  tabs.addEventListener('click', (event) => {
-    const button = event.target.closest('button[data-tab]');
-    if (button) showTab(button.dataset.tab);
+  back.addEventListener('click', () => { if (history.length) go(history.pop(), false); });
+  document.querySelector('#gh-home').addEventListener('click', () => go(profileRoute(username)));
+  document.querySelector('#gh-refresh').addEventListener('click', () => { cache.clear(); if (current) go(current, false); });
+  document.querySelector('#gh-search-form').addEventListener('submit', (event) => {
+    event.preventDefault();
+    const query = document.querySelector('#gh-search').value.trim();
+    if (!query) return;
+    if (/^[\w.-]+\/[\w.-]+$/.test(query)) go(repoRoute(query));
+    else if (/^@[\w-]+$/.test(query)) go(profileRoute(query.slice(1)));
+    else go({kind: 'search', query, tab: 'Repositories'});
   });
 }

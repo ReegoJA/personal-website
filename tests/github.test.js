@@ -1,6 +1,17 @@
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
-import {decodeFile, requestGithub} from '../dist/github.js';
+import {countEventDays, decodeFile, requestGithub} from '../dist/github.js';
+
+test('counts only returned events and keeps UTC days distinct', () => {
+  const days = countEventDays([
+    {created_at: '2026-10-12T00:00:00Z'},
+    {created_at: '2026-10-12T23:59:59Z'},
+    {created_at: '2026-10-11T23:59:59Z'},
+  ]);
+  assert.equal(days.get('2026-10-12'), 2);
+  assert.equal(days.get('2026-10-11'), 1);
+  assert.equal(days.has('2026-10-10'), false);
+});
 
 test('decodes UTF-8 repository content', () => {
   const source = 'const message = "λ";';

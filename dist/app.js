@@ -17,7 +17,8 @@ async function setEntryOpen(entry, open) {
   const outgoing = open ? bullets : expanded;
   const incoming = open ? expanded : bullets;
   const duration = reducedMotion.matches ? 0 : 230;
-  const startHeight = wrapper.getBoundingClientRect().height;
+  const scale = Number(document.querySelector('.page').style.zoom) || 1;
+  const startHeight = wrapper.getBoundingClientRect().height / scale;
   wrapper.style.height = `${startHeight}px`;
   wrapper.style.overflow = 'hidden';
   for (const trigger of entry.querySelectorAll('[aria-expanded]')) {
@@ -29,7 +30,7 @@ async function setEntryOpen(entry, open) {
   }).finished;
   outgoing.hidden = true;
   incoming.hidden = false;
-  const endHeight = incoming.getBoundingClientRect().height;
+  const endHeight = incoming.getBoundingClientRect().height / scale;
   await Promise.all([
     wrapper.animate([
       {height: `${startHeight}px`}, {height: `${endHeight}px`},
@@ -103,11 +104,11 @@ function showHint(target, message) {
   const bounds = target.getBoundingClientRect();
   const right = bounds.left + bounds.width / 2 > innerWidth / 2;
   const space = right ? innerWidth - paper.right : paper.left;
-  marginHint.style.width = `${Math.max(0, space - 32)}px`;
-  marginHint.style.left = `${right ? paper.right + 16 : 16}px`;
-  marginHint.style.top = `${Math.max(16, Math.min(bounds.top, innerHeight - 70))}px`;
+  marginHint.style.width = `${Math.max(0, space - 20)}px`;
+  marginHint.style.left = `${right ? paper.right + 10 : 10}px`;
+  marginHint.style.top = `${Math.max(75, Math.min(bounds.top, innerHeight - 70))}px`;
   marginHint.textContent = message;
-  marginHint.hidden = space < 110;
+  marginHint.hidden = space < 65;
 }
 
 function updateHint(event) {
@@ -150,3 +151,26 @@ for (const email of document.querySelectorAll('a[href^="mailto:"]')) {
     }
   });
 }
+
+let zoom = 1;
+const zoomOut = document.querySelector('#zoom-out');
+const zoomIn = document.querySelector('#zoom-in');
+
+function applyZoom() {
+  const fit = innerWidth > 850 ? Math.min(2.5, innerWidth * .86 / 816) : 1;
+  document.querySelector('.page').style.zoom = String(fit * zoom);
+  zoomOut.disabled = zoom <= .7;
+  zoomIn.disabled = zoom >= 1.5;
+  marginHint.hidden = true;
+}
+
+zoomOut.addEventListener('click', () => {
+  zoom = Math.max(.7, Number((zoom - .1).toFixed(1)));
+  applyZoom();
+});
+zoomIn.addEventListener('click', () => {
+  zoom = Math.min(1.5, Number((zoom + .1).toFixed(1)));
+  applyZoom();
+});
+window.addEventListener('resize', applyZoom);
+applyZoom();

@@ -15,6 +15,14 @@ button { cursor: pointer; }
 .entry-bullets:hover li, .entry-bullets:focus-visible li { color: var(--gold); }
 :focus-visible { outline: 1px solid var(--gold); outline-offset: 3px; }
 .entry-content { position: relative; }
+.interactive-entry:has(.entry-bullets:hover) h3,
+.interactive-entry:has(.entry-bullets:focus-visible) h3,
+.interactive-entry:has(.entry-trigger:hover) .entry-bullets li { color: var(--gold); }
+.contact-email { color: inherit; text-decoration: none; }
+.zoom-controls { position: fixed; right: 12px; top: 12px; z-index: 5; text-align: center; color: var(--ink); font: 10px Consolas, monospace; }
+.zoom-controls > div { display: flex; gap: 4px; margin-bottom: 5px; }
+.zoom-controls button { width: 28px; height: 28px; color: var(--ink); border: 1px solid #b5cbdc; background-color: white; background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size: 8px 8px; font: 21px/1 Arial, sans-serif; box-shadow: 0 2px 5px #18334d12; }
+.zoom-controls button:disabled { opacity: .45; cursor: default; }
 .margin-hint { position: fixed; color: #765719; font: 13px/1.5 Consolas, monospace; pointer-events: none; overflow-wrap: anywhere; }
 .expanded-content { padding: 5pt 0 10pt; }
 .demo-placeholder { min-height: 150pt; display: flex; flex-direction: column; align-items: center; justify-content: center; border: .5pt solid #8aaac1; background: #f5fafd66; padding: 16pt; text-align: center; }
@@ -23,28 +31,6 @@ button { cursor: pointer; }
 .expanded-description { font-size: 12pt; line-height: 16pt; margin: 12pt 0; }
 .collapse-button { background: var(--ink); color: white; border: 0; padding: 7pt 10pt; font: 9pt Calibri, Arial, sans-serif; }
 .collapse-button:hover { background: #245378; }
-.github-panel { margin: 0 6pt 16pt; padding: 12pt 0; border-top: .7pt solid var(--accent); border-bottom: .7pt solid var(--accent); }
-.github-toolbar { display: flex; justify-content: space-between; align-items: center; }
-.github-toolbar p { margin: 0; font-size: 11pt; }
-.github-toolbar button, .repo-tabs button, #more-repos, .file-back { border: .5pt solid var(--rule); padding: 5pt 8pt; background: var(--paper); color: var(--ink); font-size: 9pt; }
-.repository-layout { display: grid; grid-template-columns: 155pt minmax(0, 1fr); border: .5pt solid var(--rule); min-height: 340pt; margin: 12pt 0; background: #f5fafdde; }
-.repository-layout aside { border-right: .5pt solid var(--rule); padding: 10pt; }
-.repository-layout label { display: block; font-size: 9pt; margin-bottom: 6pt; }
-.repository-layout input { width: 100%; padding: 6pt; border: .5pt solid var(--rule); background: transparent; color: var(--ink); font-size: 9pt; }
-.repository-content { padding: 12pt; min-width: 0; }
-.repo-choice, .file-choice { display: block; width: 100%; text-align: left; background: none; border: 0; border-bottom: .5pt solid var(--rule); padding: 8pt 3pt; overflow-wrap: anywhere; color: var(--ink); font-size: 9pt; }
-.repo-choice small { display: block; color: var(--muted); font-size: 8pt; }
-.repo-choice:hover, .file-choice:hover { color: var(--gold); }
-.repo-choice[aria-pressed="true"] { background: #dfebf4; }
-.repo-tabs { display: flex; gap: 5pt; margin: 12pt 0; }
-.repo-tabs [aria-pressed="true"] { background: var(--ink); color: white; }
-.repo-heading-meta, .detail-note { color: var(--muted); font-size: 9pt; }
-.repository-content p { overflow-wrap: anywhere; }
-.file-back { margin-bottom: 8pt; }
-pre { max-height: 360pt; overflow: auto; padding: 12pt; background: #e8f0f6; font: 8pt/1.6 Consolas, monospace; tab-size: 2; }
-.activity-item { padding: 8pt 0; border-bottom: .5pt solid var(--rule); font-size: 10pt; }
-.activity-item p { margin: 3pt 0; }
-.activity-item small { color: var(--muted); }
 .sources-panel { margin: 12pt 6pt; }
 .source-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18pt; }
 .source-grid h3 { font-size: 11pt; }
@@ -66,11 +52,86 @@ pre { max-height: 360pt; overflow: auto; padding: 12pt; background: #e8f0f6; fon
   .eyebrow { font-size: 5.5pt; gap: 12pt; }
   .subtitle { font-size: 9pt; }
   .columns, .source-grid { grid-template-columns: 1fr; gap: 18pt; }
-  .repository-layout { grid-template-columns: 1fr; }
-  .repository-layout aside { border-right: 0; border-bottom: .5pt solid var(--rule); }
-  #repo-list { max-height: 150pt; overflow: auto; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; }
+}
+
+.github-panel { margin: 0 6pt 14pt; }
+.gh-shell { border: 1px solid #b5cbdc; margin-bottom: 10pt; font: 9px/1.5 Arial, sans-serif; color: #234361; min-height: 360px; }
+.gh-shell button, .gh-shell input, .gh-shell select { font: inherit; }
+.gh-shell button { color: inherit; background: transparent; border: 0; }
+.gh-shell a { color: #186599; text-decoration: none; }
+.gh-shell a:hover, .gh-shell button:hover { text-decoration: underline; }
+.gh-shell p { margin: 7px 0; }
+.gh-shell h3 { font: 600 12px/1.4 Arial, sans-serif; margin: 0 0 10px; }
+.gh-topbar { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: #203e5d; color: white; }
+.gh-topbar .gh-icon { border: 1px solid #708da9; border-radius: 4px; width: 23px; height: 23px; padding: 0; }
+.gh-icon:disabled { opacity: .4; }
+.gh-topbar .gh-brand { font-size: 13px; font-weight: 700; padding: 0; }
+#gh-context { overflow-wrap: anywhere; font-weight: 600; }
+#gh-search-form { display: flex; margin-left: auto; border: 1px solid #708da9; border-radius: 4px; width: 175px; }
+#gh-search { min-width: 0; width: 100%; padding: 4px 7px; background: transparent; color: white; border: 0; }
+#gh-search::placeholder { color: #d8e7f2; }
+.gh-topbar .gh-login { color: white; white-space: nowrap; border: 1px solid #708da9; border-radius: 4px; padding: 4px 7px; }
+.gh-tabs { display: flex; gap: 10px; padding: 0 12px; border-bottom: 1px solid #91acc4; background: #203e5d; color: white; overflow-x: auto; }
+.gh-tabs button { white-space: nowrap; padding: 8px 3px; border-bottom: 2px solid transparent; }
+.gh-tabs [aria-current="page"] { font-weight: 700; border-bottom-color: #d6b164; }
+.gh-content { padding: 20px 18px; min-height: 330px; }
+.gh-profile { display: grid; grid-template-columns: 155px minmax(0, 1fr); gap: 20px; }
+.gh-profile-sidebar img { display: block; width: 100%; height: auto; aspect-ratio: 1; border-radius: 50%; border: 1px solid #b5cbdc; margin-bottom: 12px; }
+.gh-profile-sidebar h3 { font-size: 17px; margin: 0; }
+.gh-profile-sidebar .gh-username { font-size: 13px; color: #63819c; margin-top: 0; }
+.gh-profile-sidebar > a { display: block; border: 1px solid #b5cbdc; background: #e8f0f680; text-align: center; padding: 4px; border-radius: 4px; }
+.gh-people button { padding: 0; }
+.gh-repo-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.gh-repo-card { border: 1px solid #b5cbdc; padding: 11px; border-radius: 5px; background: #ffffff50; min-height: 85px; margin: 0; overflow-wrap: anywhere; }
+.gh-shell .gh-link { color: #186599; font-weight: 600; padding: 0; text-align: left; overflow-wrap: anywhere; }
+.gh-badge { display: inline-block; border: 1px solid #b5cbdc; border-radius: 10px; font-size: 8px; padding: 0 5px; margin-left: 6px; font-weight: 400; }
+.gh-repo-card p { color: #56738c; font-size: 8px; }
+.gh-repo-card small, .gh-repo-row small { color: #56738c; font-size: 8px; }
+.gh-activity { margin-top: 22px; }
+.gh-calendar { display: grid; grid-auto-flow: column; grid-template-rows: repeat(7, 9px); grid-auto-columns: 9px; gap: 3px; border: 1px solid #b5cbdc; padding: 12px; border-radius: 5px; background: #ffffff40; }
+.gh-day { display: block; border-radius: 2px; background: #e0ebf2; }
+.gh-level-1 { background: #a4c8e1; }.gh-level-2 { background: #6d9fc4; }.gh-level-3 { background: #376b9b; }.gh-level-4 { background: #163f70; }
+.gh-note { font-size: 8px; color: #58758e; }
+.gh-event { padding: 9px 0 9px 13px; border-left: 1px solid #b5cbdc; margin: 0 0 0 5px; }
+.gh-event p { margin: 2px 0; }
+.gh-event small { color: #58758e; }
+.gh-bottom { display: flex; justify-content: space-between; padding: 8px 12px; border-top: 1px solid #b5cbdc; color: #58758e; font-size: 8px; }
+.gh-profile-main > input { width: 100%; background: #ffffff55; padding: 6px 9px; border: 1px solid #b5cbdc; border-radius: 4px; color: inherit; }
+.gh-repo-row { padding: 14px 0; border-bottom: 1px solid #b5cbdc; }
+.gh-repo-row > .gh-link { font-size: 12px; }
+.gh-person { display: block; padding: 10px 0; border-bottom: 1px solid #b5cbdc !important; width: 100%; text-align: left; }
+.gh-pagination { display: flex; align-items: center; justify-content: center; gap: 15px; margin-top: 15px; }
+.gh-pagination button:disabled { opacity: .4; cursor: default; }
+.gh-repo-title { font-size: 13px; margin-bottom: 16px; }
+.gh-repo-layout { display: grid; grid-template-columns: minmax(0, 1fr) 130px; gap: 18px; }
+.gh-files { min-width: 0; }
+.gh-file-toolbar { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; }
+.gh-file-toolbar select { max-width: 140px; border: 1px solid #b5cbdc; border-radius: 4px; padding: 4px; background: #e8f0f6; color: inherit; }
+.gh-file-table { border: 1px solid #b5cbdc; border-radius: 5px; overflow: hidden; background: #ffffff40; }
+.gh-file-table .gh-file { display: block; text-align: left; width: 100%; padding: 7px 10px; border-bottom: 1px solid #d1dfe9; }
+.gh-file:hover { background: #e0ebf2; }
+.gh-parent { margin: 0 0 10px; padding: 0; }
+.gh-code { max-height: 380px; overflow: auto; font: 9px/1.6 Consolas, monospace; padding: 10px; border: 1px solid #b5cbdc; background: #ffffff65; }
+.gh-prose { white-space: pre-wrap; overflow-wrap: anywhere; font: inherit; }
+.gh-file-path { overflow-wrap: anywhere; }
+.gh-list-item, .gh-comment { padding: 12px; border: 1px solid #b5cbdc; margin: 0 0 7px; border-radius: 4px; }
+.gh-list-item small { display: block; margin-top: 4px; color: #58758e; }
+.gh-error { color: #93472f; }
+@media (max-width: 560px) {
+  .zoom-controls { right: 5px; top: 4px; }
+  .zoom-controls button { width: 23px; height: 23px; }
+  .page { margin-top: 48px; }
+  .gh-topbar { flex-wrap: wrap; gap: 7px; }
+  #gh-search-form { order: 5; width: 100%; }
+  .gh-login { margin-left: auto; }
+  .gh-content { padding: 12px; }
+  .gh-profile, .gh-repo-layout { grid-template-columns: 1fr; }
+  .gh-profile-sidebar img { width: 95px; float: left; margin-right: 14px; }
+  .gh-profile-sidebar { min-height: 105px; }
+  .gh-repo-grid { grid-template-columns: 1fr; }
+  .gh-shell { font-size: 11px; }
 }
