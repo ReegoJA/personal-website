@@ -151,3 +151,16 @@ Commit message:
 - Removed the redundant website label
 - Bundled the standalone MIT-licensed profile component with isolated styles
 - Updated setup, file explanations, and licensing
+
+### 2026-10-12 - Resume reference alignment
+
+Commit message:
+
+```text
+- align resume wording with HTML reference
+```
+
+- Corrected name spelling and Computer Science capitalization
+- Matched education and research heading text to the resume reference
+- Renamed Nano PV Solar throughout the entry and interactive controls
+- Removed trailing periods from the six overview paragraphs
