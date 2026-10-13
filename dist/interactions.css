@@ -62,3 +62,8 @@ github-profile { --gh-unit: 1px; margin-bottom: 10pt; }
   .zoom-controls button { width: 23px; height: 23px; }
   .page { margin-top: 48px; }
 }
+
+footer { display: flex; align-items: baseline; justify-content: space-between; gap: 8pt; }
+footer .footer-summary { flex: 1; }
+#open-sources { flex-shrink: 0; margin-left: auto; text-align: right; }
+@media (max-width: 560px) { footer { flex-wrap: wrap; } }

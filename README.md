@@ -164,3 +164,11 @@ Commit message:
 - Matched education and research heading text to the resume reference
 - Renamed Nano PV Solar throughout the entry and interactive controls
 - Removed trailing periods from the six overview paragraphs
+
+### 2026-10-12 - Resume details and footer
+
+Commit message: `- update GPA and simplify sources footer`
+
+- Updated GPA to 3.54
+- Removed website implementation references from the sources panel
+- Aligned the sources control to the right of the footer
