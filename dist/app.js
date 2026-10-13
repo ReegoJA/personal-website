@@ -1,4 +1,4 @@
-import {mountGithub} from './github.js';
+import './github-theme/github-theme.js';
 
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -79,7 +79,7 @@ function bindPanel(name) {
       panel.animate([{opacity: 0}, {opacity: 1}], {
         duration: reducedMotion.matches ? 0 : 220,
       });
-      if (name === 'github') panel.dispatchEvent(new Event('github-open'));
+      if (name === 'github') panel.querySelector('github-profile').load();
     }
   });
   collapse.addEventListener('click', () => {
@@ -91,7 +91,6 @@ function bindPanel(name) {
 
 bindPanel('github');
 bindPanel('sources');
-mountGithub('ReegoJA');
 
 const marginHint = document.createElement('div');
 marginHint.className = 'margin-hint';

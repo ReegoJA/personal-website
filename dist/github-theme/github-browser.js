@@ -89,13 +89,14 @@ export function countEventDays(events) {
 /**
  * Mounts profile, repository, and public activity views inside the resume.
  * @param {string} username Initial GitHub profile.
+ * @param {!ShadowRoot} root Isolated component DOM.
  */
-export function mountGithub(username) {
-  const panel = document.querySelector('#github-section');
-  const content = document.querySelector('#gh-content');
-  const tabs = document.querySelector('#gh-tabs');
-  const context = document.querySelector('#gh-context');
-  const back = document.querySelector('#gh-back');
+export function mountGithub(username, root) {
+  const panel = root.querySelector('#github-section');
+  const content = root.querySelector('#gh-content');
+  const tabs = root.querySelector('#gh-tabs');
+  const context = root.querySelector('#gh-context');
+  const back = root.querySelector('#gh-back');
   const history = [];
   let current = null;
   let revision = 0;
@@ -343,11 +344,11 @@ export function mountGithub(username) {
     if (!current) go(profileRoute(username));
   });
   back.addEventListener('click', () => { if (history.length) go(history.pop(), false); });
-  document.querySelector('#gh-home').addEventListener('click', () => go(profileRoute(username)));
-  document.querySelector('#gh-refresh').addEventListener('click', () => { cache.clear(); if (current) go(current, false); });
-  document.querySelector('#gh-search-form').addEventListener('submit', (event) => {
+  root.querySelector('#gh-home').addEventListener('click', () => go(profileRoute(username)));
+  root.querySelector('#gh-refresh').addEventListener('click', () => { cache.clear(); if (current) go(current, false); });
+  root.querySelector('#gh-search-form').addEventListener('submit', (event) => {
     event.preventDefault();
-    const query = document.querySelector('#gh-search').value.trim();
+    const query = root.querySelector('#gh-search').value.trim();
     if (!query) return;
     if (/^[\w.-]+\/[\w.-]+$/.test(query)) go(repoRoute(query));
     else if (/^@[\w-]+$/.test(query)) go(profileRoute(query.slice(1)));

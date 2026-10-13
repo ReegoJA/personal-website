@@ -2,7 +2,7 @@
 
 An expandable research resume for Reego John-Annaselvan.
 
-Created: 2026-10-12. Current release: 0.2.0.
+Created: 2026-10-12. Current release: 0.3.0.
 
 ## Goal
 
@@ -16,7 +16,7 @@ The GitHub panel starts on the owner's public profile. It supports public profil
 
 This is a themed public REST API client, not the GitHub website or an authenticated session. Sign in opens GitHub's actual login page in a separate tab. Projects, packages, release downloads, and unsupported files link to GitHub. API rate limits and data availability apply. The activity calendar counts only returned public events, it does not claim to reproduce the contribution graph. File content and Markdown are displayed as plain text.
 
-The paper initially fits approximately 86% of a desktop window. The fixed grid-pattern minus and plus buttons adjust its scale. Narrow screens use a single column. Hovering over bullets highlights the matching title, only a click or keyboard activation opens an entry.
+The paper initially fits approximately 86% of a desktop window. The fixed grid-pattern minus and plus buttons adjust its scale. Narrow screens use a single column. Hovering within an entry highlights its title, metadata, summary, bullets, and bullet markers together, only a click or keyboard activation opens an entry.
 
 ## Download and run
 
@@ -44,7 +44,10 @@ npm test
 | `dist/styles.css` | Original resume typography, paper, palette, and grid |
 | `dist/interactions.css` | Expansion, margin prompts, repository panel, responsive and motion styles |
 | `dist/app.js` | Click expansion, margin prompts, email copying, page zoom, GitHub initialization |
-| `dist/github.js` | Public API requests, profile and repository routing, search, activity, file decoding |
+| `dist/github-theme/github-theme.js` | Reusable isolated custom element and lazy loading |
+| `dist/github-theme/github-browser.js` | Public API client and navigation |
+| `dist/github-theme/github-theme.css` | Isolated blueprint GitHub styles |
+| `dist/github-theme/LICENSE` | MIT license for the reusable component |
 | `dist/favicon.svg` | Original vector lettermark |
 | `scripts/serve.js` | Local static server limited to `dist/` |
 | `tests/github.test.js` | UTC activity counts, UTF-8, file limits, rate limits, and cache checks |
@@ -65,7 +68,7 @@ Use two spaces, semicolons, single-quoted JavaScript strings, named ES exports, 
 
 ## Dependencies, credits, and people
 
-There are **no third-party runtime libraries** and no remotely loaded fonts, analytics, or UI frameworks. Profile avatars load from GitHub when its panel is opened.
+The reusable [Custom GitHub Theme](https://github.com/ReegoJA/custom-github-theme) component is bundled locally under its MIT license. There are **no external runtime libraries** and no remotely loaded fonts, analytics, or UI frameworks. Profile avatars load from GitHub when its panel is opened.
 
 | Resource | Maintainer / creator | Role / license |
 | --- | --- | --- |
@@ -109,7 +112,7 @@ Do not put credentials in frontend files. A future authenticated GitHub integrat
 
 ## Licensing
 
-No open-source license has been selected by the owner. `LICENSE` records this explicitly. Public availability is not a general license to reuse the original code or personal content. Third-party references retain their respective licenses. The owner may choose an appropriate software license later.
+The reusable component in `dist/github-theme/` is MIT-licensed, its included license applies to those files. No open-source license has been selected for the remaining portfolio code and personal content. `LICENSE` records this explicitly. Public availability is not a general license to reuse the original code or personal content. Third-party references retain their respective licenses. The owner may choose an appropriate software license later.
 
 ## Update history
 
@@ -133,3 +136,18 @@ Commit/push message: `push local copy 2`
 - Hosting configuration separated from the public source
 
 Validation: five unit tests, browser checks for profile, repository files, keyboard expansion, independent columns, zoom, and mobile layout. GitHub-only features are linked rather than simulated.
+
+### 2026-10-12 - 0.3.0
+
+Commit message:
+
+```text
+- unified entry highlighting
+- reusable GitHub theme integration
+- simplified contact line
+```
+
+- Whole-entry gold highlighting, including summary, metadata, links, and bullet markers
+- Removed the redundant website label
+- Bundled the standalone MIT-licensed profile component with isolated styles
+- Updated setup, file explanations, and licensing

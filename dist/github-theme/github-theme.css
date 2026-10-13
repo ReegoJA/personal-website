@@ -1,0 +1,77 @@
+:host { display: block; container: github-theme / inline-size; }
+* { box-sizing: border-box; }
+button, select { cursor: pointer; }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid #186599; outline-offset: 2px; }
+.gh-shell { border: 1px solid #b5cbdc; margin-bottom: 10pt; font: calc(9 * var(--gh-unit, 1.45px))/1.5 Arial, sans-serif; color: #234361; min-height: calc(360 * var(--gh-unit, 1.45px)); background-color: #f5fafd; background-image: linear-gradient(#e2edf4 1px, transparent 1px), linear-gradient(90deg, #e2edf4 1px, transparent 1px); background-size: calc(16 * var(--gh-unit, 1.45px)) calc(16 * var(--gh-unit, 1.45px)); }
+.gh-shell button, .gh-shell input, .gh-shell select { font: inherit; }
+.gh-shell button { color: inherit; background: transparent; border: 0; }
+.gh-shell a { color: #186599; text-decoration: none; }
+.gh-shell a:hover, .gh-shell button:hover { text-decoration: underline; }
+.gh-shell p { margin: calc(7 * var(--gh-unit, 1.45px)) 0; }
+.gh-shell h3 { font: 600 calc(12 * var(--gh-unit, 1.45px))/1.4 Arial, sans-serif; margin: 0 0 calc(10 * var(--gh-unit, 1.45px)); }
+.gh-topbar { display: flex; align-items: center; gap: calc(10 * var(--gh-unit, 1.45px)); padding: calc(10 * var(--gh-unit, 1.45px)) calc(12 * var(--gh-unit, 1.45px)); background: #203e5d; color: white; }
+.gh-topbar .gh-icon { border: 1px solid #708da9; border-radius: calc(4 * var(--gh-unit, 1.45px)); width: calc(23 * var(--gh-unit, 1.45px)); height: calc(23 * var(--gh-unit, 1.45px)); padding: 0; }
+.gh-icon:disabled { opacity: .4; }
+.gh-topbar .gh-brand { font-size: calc(13 * var(--gh-unit, 1.45px)); font-weight: 700; padding: 0; }
+#gh-context { overflow-wrap: anywhere; font-weight: 600; }
+#gh-search-form { display: flex; margin-left: auto; border: 1px solid #708da9; border-radius: calc(4 * var(--gh-unit, 1.45px)); width: calc(175 * var(--gh-unit, 1.45px)); }
+#gh-search { min-width: 0; width: 100%; padding: calc(4 * var(--gh-unit, 1.45px)) calc(7 * var(--gh-unit, 1.45px)); background: transparent; color: white; border: 0; }
+#gh-search::placeholder { color: #d8e7f2; }
+.gh-topbar .gh-login { color: white; white-space: nowrap; border: 1px solid #708da9; border-radius: calc(4 * var(--gh-unit, 1.45px)); padding: calc(4 * var(--gh-unit, 1.45px)) calc(7 * var(--gh-unit, 1.45px)); }
+.gh-tabs { display: flex; gap: calc(10 * var(--gh-unit, 1.45px)); padding: 0 calc(12 * var(--gh-unit, 1.45px)); border-bottom: 1px solid #91acc4; background: #203e5d; color: white; overflow-x: auto; }
+.gh-tabs button { white-space: nowrap; padding: calc(8 * var(--gh-unit, 1.45px)) calc(3 * var(--gh-unit, 1.45px)); border-bottom: calc(2 * var(--gh-unit, 1.45px)) solid transparent; }
+.gh-tabs [aria-current="page"] { font-weight: 700; border-bottom-color: #d6b164; }
+.gh-content { padding: calc(20 * var(--gh-unit, 1.45px)) calc(18 * var(--gh-unit, 1.45px)); min-height: calc(330 * var(--gh-unit, 1.45px)); }
+.gh-profile { display: grid; grid-template-columns: calc(155 * var(--gh-unit, 1.45px)) minmax(0, 1fr); gap: calc(20 * var(--gh-unit, 1.45px)); }
+.gh-profile-sidebar img { display: block; width: 100%; height: auto; aspect-ratio: 1; border-radius: 50%; border: 1px solid #b5cbdc; margin-bottom: calc(12 * var(--gh-unit, 1.45px)); }
+.gh-profile-sidebar h3 { font-size: calc(17 * var(--gh-unit, 1.45px)); margin: 0; }
+.gh-profile-sidebar .gh-username { font-size: calc(13 * var(--gh-unit, 1.45px)); color: #63819c; margin-top: 0; }
+.gh-profile-sidebar > a { display: block; border: 1px solid #b5cbdc; background: #e8f0f680; text-align: center; padding: calc(4 * var(--gh-unit, 1.45px)); border-radius: calc(4 * var(--gh-unit, 1.45px)); }
+.gh-people button { padding: 0; }
+.gh-repo-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: calc(10 * var(--gh-unit, 1.45px)); }
+.gh-repo-card { border: 1px solid #b5cbdc; padding: calc(11 * var(--gh-unit, 1.45px)); border-radius: calc(5 * var(--gh-unit, 1.45px)); background: #ffffff50; min-height: calc(85 * var(--gh-unit, 1.45px)); margin: 0; overflow-wrap: anywhere; }
+.gh-shell .gh-link { color: #186599; font-weight: 600; padding: 0; text-align: left; overflow-wrap: anywhere; }
+.gh-badge { display: inline-block; border: 1px solid #b5cbdc; border-radius: calc(10 * var(--gh-unit, 1.45px)); font-size: calc(8 * var(--gh-unit, 1.45px)); padding: 0 calc(5 * var(--gh-unit, 1.45px)); margin-left: calc(6 * var(--gh-unit, 1.45px)); font-weight: 400; }
+.gh-repo-card p { color: #56738c; font-size: calc(8 * var(--gh-unit, 1.45px)); }
+.gh-repo-card small, .gh-repo-row small { color: #56738c; font-size: calc(8 * var(--gh-unit, 1.45px)); }
+.gh-activity { margin-top: calc(22 * var(--gh-unit, 1.45px)); }
+.gh-calendar { display: grid; grid-auto-flow: column; grid-template-rows: repeat(7, calc(9 * var(--gh-unit, 1.45px))); grid-auto-columns: calc(9 * var(--gh-unit, 1.45px)); gap: calc(3 * var(--gh-unit, 1.45px)); border: 1px solid #b5cbdc; padding: calc(12 * var(--gh-unit, 1.45px)); border-radius: calc(5 * var(--gh-unit, 1.45px)); background: #ffffff40; }
+.gh-day { display: block; border-radius: calc(2 * var(--gh-unit, 1.45px)); background: #e0ebf2; }
+.gh-level-1 { background: #a4c8e1; }.gh-level-2 { background: #6d9fc4; }.gh-level-3 { background: #376b9b; }.gh-level-4 { background: #163f70; }
+.gh-note { font-size: calc(8 * var(--gh-unit, 1.45px)); color: #58758e; }
+.gh-event { padding: calc(9 * var(--gh-unit, 1.45px)) 0 calc(9 * var(--gh-unit, 1.45px)) calc(13 * var(--gh-unit, 1.45px)); border-left: 1px solid #b5cbdc; margin: 0 0 0 calc(5 * var(--gh-unit, 1.45px)); }
+.gh-event p { margin: calc(2 * var(--gh-unit, 1.45px)) 0; }
+.gh-event small { color: #58758e; }
+.gh-bottom { display: flex; justify-content: space-between; padding: calc(8 * var(--gh-unit, 1.45px)) calc(12 * var(--gh-unit, 1.45px)); border-top: 1px solid #b5cbdc; color: #58758e; font-size: calc(8 * var(--gh-unit, 1.45px)); }
+.gh-profile-main > input { width: 100%; background: #ffffff55; padding: calc(6 * var(--gh-unit, 1.45px)) calc(9 * var(--gh-unit, 1.45px)); border: 1px solid #b5cbdc; border-radius: calc(4 * var(--gh-unit, 1.45px)); color: inherit; }
+.gh-repo-row { padding: calc(14 * var(--gh-unit, 1.45px)) 0; border-bottom: 1px solid #b5cbdc; }
+.gh-repo-row > .gh-link { font-size: calc(12 * var(--gh-unit, 1.45px)); }
+.gh-person { display: block; padding: calc(10 * var(--gh-unit, 1.45px)) 0; border-bottom: 1px solid #b5cbdc !important; width: 100%; text-align: left; }
+.gh-pagination { display: flex; align-items: center; justify-content: center; gap: calc(15 * var(--gh-unit, 1.45px)); margin-top: calc(15 * var(--gh-unit, 1.45px)); }
+.gh-pagination button:disabled { opacity: .4; cursor: default; }
+.gh-repo-title { font-size: calc(13 * var(--gh-unit, 1.45px)); margin-bottom: calc(16 * var(--gh-unit, 1.45px)); }
+.gh-repo-layout { display: grid; grid-template-columns: minmax(0, 1fr) calc(130 * var(--gh-unit, 1.45px)); gap: calc(18 * var(--gh-unit, 1.45px)); }
+.gh-files { min-width: 0; }
+.gh-file-toolbar { display: flex; align-items: center; flex-wrap: wrap; gap: calc(10 * var(--gh-unit, 1.45px)); margin-bottom: calc(10 * var(--gh-unit, 1.45px)); }
+.gh-file-toolbar select { max-width: calc(140 * var(--gh-unit, 1.45px)); border: 1px solid #b5cbdc; border-radius: calc(4 * var(--gh-unit, 1.45px)); padding: calc(4 * var(--gh-unit, 1.45px)); background: #e8f0f6; color: inherit; }
+.gh-file-table { border: 1px solid #b5cbdc; border-radius: calc(5 * var(--gh-unit, 1.45px)); overflow: hidden; background: #ffffff40; }
+.gh-file-table .gh-file { display: block; text-align: left; width: 100%; padding: calc(7 * var(--gh-unit, 1.45px)) calc(10 * var(--gh-unit, 1.45px)); border-bottom: 1px solid #d1dfe9; }
+.gh-file:hover { background: #e0ebf2; }
+.gh-parent { margin: 0 0 calc(10 * var(--gh-unit, 1.45px)); padding: 0; }
+.gh-code { max-height: calc(380 * var(--gh-unit, 1.45px)); overflow: auto; font: calc(9 * var(--gh-unit, 1.45px))/1.6 Consolas, monospace; padding: calc(10 * var(--gh-unit, 1.45px)); border: 1px solid #b5cbdc; background: #ffffff65; }
+.gh-prose { white-space: pre-wrap; overflow-wrap: anywhere; font: inherit; }
+.gh-file-path { overflow-wrap: anywhere; }
+.gh-list-item, .gh-comment { padding: calc(12 * var(--gh-unit, 1.45px)); border: 1px solid #b5cbdc; margin: 0 0 calc(7 * var(--gh-unit, 1.45px)); border-radius: calc(4 * var(--gh-unit, 1.45px)); }
+.gh-list-item small { display: block; margin-top: calc(4 * var(--gh-unit, 1.45px)); color: #58758e; }
+.gh-error { color: #93472f; }
+@container github-theme (max-width: 600px) {
+  .gh-topbar { flex-wrap: wrap; gap: calc(7 * var(--gh-unit, 1.45px)); }
+  #gh-search-form { order: 5; width: 100%; }
+  .gh-login { margin-left: auto; }
+  .gh-content { padding: calc(12 * var(--gh-unit, 1.45px)); }
+  .gh-profile, .gh-repo-layout { grid-template-columns: 1fr; }
+  .gh-profile-sidebar img { width: calc(95 * var(--gh-unit, 1.45px)); float: left; margin-right: calc(14 * var(--gh-unit, 1.45px)); }
+  .gh-profile-sidebar { min-height: calc(105 * var(--gh-unit, 1.45px)); }
+  .gh-repo-grid { grid-template-columns: 1fr; }
+  .gh-shell { font-size: calc(11 * var(--gh-unit, 1.45px)); }
+}

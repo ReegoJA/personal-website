@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
-import {countEventDays, decodeFile, requestGithub} from '../dist/github.js';
+import {countEventDays, decodeFile, requestGithub} from '../dist/github-theme/github-browser.js';
 
 test('counts only returned events and keeps UTC days distinct', () => {
   const days = countEventDays([
