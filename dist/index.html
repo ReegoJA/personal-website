@@ -29,8 +29,8 @@
 <div class="entry-content">
 <div class="entry-bullets" role="button" tabindex="0" aria-label="Explore VIP" aria-expanded="false" aria-controls="vip-expanded"><ul>
 <li>Lead the simulation subteam within Georgia Tech&#x27;s VIP partnership with Sandia National Laboratories.</li>
-<li>Developing a workflow linking GaN molecular-dynamics trajectories to Quantum ESPRESSO calculations of electronic response.</li>
-<li>Current scope: controlled lattice disturbances, atomic-snapshot conversion, and work-function analysis with numerical convergence checks.</li>
+<li>Develop a workflow that converts GaN molecular-dynamics snapshots into Quantum ESPRESSO inputs to study electronic response.</li>
+<li>Focus on controlled lattice disturbances and work-function analysis, using convergence checks to assess numerical reliability.</li>
 </ul></div>
 <div class="expanded-content" id="vip-expanded" hidden>
 <div class="demo-placeholder" role="img" aria-label="Placeholder for GaN lattice / electronic response"><span>GaN lattice / electronic response</span><small>Visualization / demo to be added</small></div>
@@ -47,8 +47,8 @@
 </div>
 <div class="entry-content">
 <div class="entry-bullets" role="button" tabindex="0" aria-label="Explore TCNJ research" aria-expanded="false" aria-controls="tcnj-expanded"><ul>
-<li>Implemented comparative experiments for active-learning stopping criteria; analyzed annotation cost against predictive performance.</li>
-<li>Built reproducible evaluation scripts to track learning curves, stopping decisions, and variation across experimental runs.</li>
+<li>Compared active-learning stopping criteria to assess when additional annotation yields meaningful predictive gains.</li>
+<li>Tracked annotation cost, learning curves, and stopping decisions across repeated runs with reproducible evaluation scripts.</li>
 </ul></div>
 <div class="expanded-content" id="tcnj-expanded" hidden>
 <div class="demo-placeholder" role="img" aria-label="Placeholder for Learning curves / stopping decisions"><span>Learning curves / stopping decisions</span><small>Visualization / demo to be added</small></div>
@@ -65,8 +65,8 @@
 </div>
 <div class="entry-content">
 <div class="entry-bullets" role="button" tabindex="0" aria-label="Explore Nano PV Solar" aria-expanded="false" aria-controls="nano-pv-expanded"><ul>
-<li>Developed a Python analysis framework for current-voltage characterization, extracting device parameters and comparing measured response with fitted models.</li>
-<li>Evaluated parameter sensitivity and measurement variability across test conditions to distinguish device trends from testing artifacts.</li>
+<li>Built a Python current-voltage analysis pipeline to extract device parameters and compare measured curves with fitted models.</li>
+<li>Analyzed parameter sensitivity and measurement variability to separate device behavior from testing artifacts.</li>
 </ul></div>
 <div class="expanded-content" id="nano-pv-expanded" hidden>
 <div class="demo-placeholder" role="img" aria-label="Placeholder for Device performance / model comparison"><span>Device performance / model comparison</span><small>Visualization / demo to be added</small></div>
@@ -75,22 +75,22 @@
 </div>
 </div>
 </article>
-<h2>RESEARCH + PROJECT TECHNOLOGIES</h2><p class="small"><b>Research workflow:</b> Molecular dynamics / DFT / Quantum ESPRESSO<br><b>Planned ML stack:</b> Python / PyTorch / JAX / scikit-learn<br><b>Planned systems stack:</b> C++ / CUDA / OpenGL / Linux / Git / CMake</p>
+<h2>RESEARCH + PROJECT TECHNOLOGIES</h2><p class="small"><b>Research workflow:</b> Molecular dynamics / DFT / Quantum ESPRESSO<br><b>Analysis:</b> Python / NumPy / scikit-learn / Slurm<br><b>Planned:</b> JAX / C++ / CUDA / OpenGL / CMake</p>
 </section><section><h2>C / PERSONAL PROJECTS</h2>
 <article class="interactive-entry" id="stoplab" data-label="STOPLAB">
 <div class="entry-trigger" role="button" tabindex="0" aria-expanded="false" aria-controls="stoplab-expanded">
 <h3>STOPLAB / When should learning stop?</h3>
-<p class="meta">Python / PyTorch / scikit-learn / Personal</p>
+<p class="meta">Python / scikit-learn / Slurm / Personal</p>
 <p class="overview">Benchmarking the reliability of active-learning stopping rules under label noise and sampling bias</p>
 </div>
 <div class="entry-content">
 <div class="entry-bullets" role="button" tabindex="0" aria-label="Explore STOPLAB" aria-expanded="false" aria-controls="stoplab-expanded"><ul>
-<li>Reproduce prediction-stability stopping rules; evaluate sensitivity to label noise, class imbalance, and biased stop sets.</li>
-<li>Measure premature stopping and excess labeling through repeated trials, ablations, and reproducible experiments.</li>
+<li>Implemented 2 literature-based stopping rules across 3 stop-set designs, with noise and class-imbalance controls.</li>
+<li>Ran 96 paired trajectories with 2 learners; built threshold replay, bootstrap comparisons, and Slurm job arrays.</li>
 </ul></div>
 <div class="expanded-content" id="stoplab-expanded" hidden>
 <div class="demo-placeholder" role="img" aria-label="Placeholder for Label budget / predictive performance"><span>Label budget / predictive performance</span><small>Visualization / demo to be added</small></div>
-<p class="expanded-description">STOPLAB is a planned benchmark for understanding when active-learning stopping rules fail. The project will compare prediction-stability criteria under label noise, class imbalance, and changes in stop-set composition. Repeated trials and controlled comparisons will separate premature stopping from unnecessary labeling. The interactive view will eventually expose those trade-offs directly.</p>
+<p class="expanded-description">STOPLAB is a standalone research package for testing when active-learning stopping rules save labels and when stability hides poor performance. It implements Stabilizing Predictions and Predicted Change of F, comparing fixed, remaining-pool, and deliberately easy stop sets. A 96-trajectory pilot spans two linear learners, four classification tasks, and clean/noisy annotation. The package includes paired bootstrap analysis, threshold replay, audit records, tests, and a 5,120-trajectory Slurm study configuration. The larger cluster study has not yet run; the pilot is exploratory.</p>
 <button class="collapse-button" type="button">[Collapse STOPLAB]</button>
 </div>
 </div>
@@ -98,13 +98,13 @@
 <article class="interactive-entry" id="sensorlab" data-label="SENSORLAB">
 <div class="entry-trigger" role="button" tabindex="0" aria-expanded="false" aria-controls="sensorlab-expanded">
 <h3>SENSORLAB / Learning where to measure</h3>
-<p class="meta">Python / JAX / SciPy / Personal</p>
+<p class="meta">Python / JAX / SciPy / Planned</p>
 <p class="overview">Simulation-guided sensor placement for estimating thermal properties from sparse, noisy measurements</p>
 </div>
 <div class="entry-content">
 <div class="entry-bullets" role="button" tabindex="0" aria-label="Explore SENSORLAB" aria-expanded="false" aria-controls="sensorlab-expanded"><ul>
-<li>Develop a differentiable heat solver for material-parameter inference; verify gradients against finite differences.</li>
-<li>Compare adaptive, uniform, and random sensor layouts using parameter error, uncertainty, and identifiability.</li>
+<li>Plan a differentiable heat solver to infer thermal properties from sparse observations, with finite-difference gradient checks.</li>
+<li>Evaluate 3 sensor layouts—adaptive, uniform, and random—using recovery error, uncertainty, and identifiability.</li>
 </ul></div>
 <div class="expanded-content" id="sensorlab-expanded" hidden>
 <div class="demo-placeholder" role="img" aria-label="Placeholder for Thermal field / sensor placement"><span>Thermal field / sensor placement</span><small>Visualization / demo to be added</small></div>
@@ -121,8 +121,8 @@
 </div>
 <div class="entry-content">
 <div class="entry-bullets" role="button" tabindex="0" aria-label="Explore LUMEN" aria-expanded="false" aria-controls="lumen-expanded"><ul>
-<li>Implement BVH traversal and multiple importance sampling; extend a CPU reference tracer to a GPU wavefront pipeline.</li>
-<li>Benchmark image error, throughput, and memory across scenes; verify convergence and CPU/GPU consistency.</li>
+<li>Plan a CPU reference tracer with BVH traversal and multiple importance sampling, followed by a CUDA wavefront pipeline.</li>
+<li>Compare CPU/GPU image error, throughput, and memory under matched scenes and sampling budgets.</li>
 </ul></div>
 <div class="expanded-content" id="lumen-expanded" hidden>
 <div class="demo-placeholder" role="img" aria-label="Placeholder for Light transport / convergence"><span>Light transport / convergence</span><small>Visualization / demo to be added</small></div>
@@ -134,7 +134,7 @@
 <h2>RESEARCH INTERESTS</h2><p class="small">Data-efficient learning / Scientific computing / Simulation and inference</p></section></div>
 </div><footer><span class="footer-summary"><b>MODEL / MEASURE / EXPLAIN:</b> Connecting physical simulation, data-efficient learning, and computational performance.</span> <button class="inline-trigger" id="open-sources" type="button" aria-expanded="false" aria-controls="sources">[Sources &amp; references]</button></footer>
 <section id="sources" class="sources-panel" hidden aria-label="Sources and references"><div class="source-grid">
-          <section><h3>Active learning / STOPLAB</h3><a href="https://aclanthology.org/W09-1107/" target="_blank" rel="noopener noreferrer">Bloodgood & Vijay-Shanker · A Method for Stopping Active Learning Based on Stabilizing Predictions ↗</a><a href="https://arxiv.org/abs/2201.05460" target="_blank" rel="noopener noreferrer">Kurlandski & Bloodgood · Impact of Stop Sets on Stopping Active Learning ↗</a><p>Background literature; proposed projects do not claim novel methods.</p></section>
+          <section><h3>Active learning / STOPLAB</h3><a href="https://aclanthology.org/W09-1107/" target="_blank" rel="noopener noreferrer">Bloodgood & Vijay-Shanker · A Method for Stopping Active Learning Based on Stabilizing Predictions ↗</a><a href="https://arxiv.org/abs/2201.05460" target="_blank" rel="noopener noreferrer">Kurlandski & Bloodgood · Impact of Stop Sets on Stopping Active Learning ↗</a><a href="https://arxiv.org/abs/1901.09118" target="_blank" rel="noopener noreferrer">Altschuler &amp; Bloodgood · Predicted Change of F ↗</a><a href="https://arxiv.org/abs/1504.06329" target="_blank" rel="noopener noreferrer">Bloodgood &amp; Grothendieck · Analysis of Stabilizing Predictions ↗</a><p>Research foundations; STOPLAB extends these methods without claiming an exact replication or a novel stopping rule.</p></section>
           <section><h3>Semiconductor research</h3><p>Elaine Louise Rhoades · <cite>Semiconductor Particle Detector Based on Work Function Modulation</cite>, Georgia Tech, 2021. Chapter 6 provides the simulation background.</p><a href="https://vip.gatech.edu/teams-all-in-one/entry/1348/" target="_blank" rel="noopener noreferrer">Compound Semiconductor Products VIP ↗</a><a href="https://www.quantum-espresso.org/" target="_blank" rel="noopener noreferrer">Quantum ESPRESSO ↗</a><a href="https://www.lammps.org/" target="_blank" rel="noopener noreferrer">LAMMPS · Candidate MD package ↗</a></section>
           <section><h3>Scientific computing / SENSORLAB</h3><a href="https://github.com/pdebench/PDEBench" target="_blank" rel="noopener noreferrer">PDEBench · Forward and inverse PDE benchmarks ↗</a><a href="https://github.com/taichi-dev/difftaichi" target="_blank" rel="noopener noreferrer">DiffTaichi · Differentiable simulation ↗</a><a href="https://docs.pyro.ai/en/dev/contrib.oed.html" target="_blank" rel="noopener noreferrer">Pyro · Optimal experimental design ↗</a></section>
           <section><h3>Rendering / LUMEN</h3><a href="https://www.pbr-book.org/4ed/Introduction" target="_blank" rel="noopener noreferrer">Pharr, Jakob & Humphreys · Physically Based Rendering, 4th edition ↗</a><a href="https://www.pbr-book.org/4ed/Wavefront_Rendering_on_GPUs/Mapping_Path_Tracing_to_the_GPU" target="_blank" rel="noopener noreferrer">Mapping path tracing to the GPU ↗</a></section>

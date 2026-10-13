@@ -183,3 +183,23 @@ Commit message: `- add grid-backed hints and isolate email highlighting`
 Commit message: `- refresh interactive stylesheet cache`
 
 - Versioned the interactive stylesheet URL so visitors receive updated styles
+
+### 2026-10-13 - Research wording and STOPLAB implementation
+
+Commit message: `- refine resume wording and document implemented STOPLAB scope`
+
+- Tightened research bullets around methods, purpose, and verifiable scope
+- Added measured STOPLAB scope: 96 paired trajectories and two learners
+- Distinguished the planned SENSORLAB and LUMEN work from implemented work
+- Updated STOPLAB's explanation and added PCF/theoretical-analysis sources
+- Preserved the blueprint layout, GPA, grid-backed controls, and email behavior
+
+STOPLAB is a separate Python research package. No browser demo or new runtime
+dependency was added to this website. The 5,120-trajectory cluster configuration
+is planned work, the 96-trajectory pilot is completed, exploratory evidence.
+Research attribution: Altschuler and Bloodgood's PCF paper
+(https://arxiv.org/abs/1901.09118) and Bloodgood and Grothendieck's analysis
+(https://arxiv.org/abs/1504.06329). These authors did not contribute website code.
+
+Validation: five existing tests, local browser checks of hover/focus styling and
+source controls, and a one-page PDF export with eight clickable links.
