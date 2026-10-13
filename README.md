@@ -172,3 +172,10 @@ Commit message: `- update GPA and simplify sources footer`
 - Updated GPA to 3.54
 - Removed website implementation references from the sources panel
 - Aligned the sources control to the right of the footer
+
+### 2026-10-13 - Hover clarity
+
+Commit message: `- add grid-backed hints and isolate email highlighting`
+
+- Added white grid backgrounds to zoom labels and side hints
+- Email hover and focus use pink without highlighting the enclosing entry
