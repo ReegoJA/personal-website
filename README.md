@@ -179,3 +179,7 @@ Commit message: `- add grid-backed hints and isolate email highlighting`
 
 - Added white grid backgrounds to zoom labels and side hints
 - Email hover and focus use pink without highlighting the enclosing entry
+
+Commit message: `- refresh interactive stylesheet cache`
+
+- Versioned the interactive stylesheet URL so visitors receive updated styles
