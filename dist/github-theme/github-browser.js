@@ -118,7 +118,7 @@ export function mountGithub(username, root) {
     const title = button(repo.full_name, () => go(repoRoute(repo.full_name)), 'gh-link');
     card.append(title, element('span', 'Public', 'gh-badge'));
     card.append(element('p', repo.description || 'No description provided.'));
-    card.append(element('small', `${repo.language || 'Code'}  ·  ☆ ${repo.stargazers_count}  ·  Forks ${repo.forks_count}`));
+    card.append(element('small', `${repo.language || 'Code'}  /  ☆ ${repo.stargazers_count}  /  Forks ${repo.forks_count}`));
     return card;
   }
 
@@ -147,7 +147,7 @@ export function mountGithub(username, root) {
     if (user.bio) sidebar.append(element('p', user.bio));
     sidebar.append(external('Follow on GitHub ↗', `https://github.com/${encode(user.login)}`));
     const people = element('p', '', 'gh-people');
-    people.append(button(`${user.followers} followers`, () => go(profileRoute(user.login, 'Followers'))), element('span', ' · '), button(`${user.following} following`, () => go(profileRoute(user.login, 'Following'))));
+    people.append(button(`${user.followers} followers`, () => go(profileRoute(user.login, 'Followers'))), element('span', ' / '), button(`${user.following} following`, () => go(profileRoute(user.login, 'Following'))));
     sidebar.append(people);
     if (user.location) sidebar.append(element('p', user.location));
     const main = element('div', '', 'gh-profile-main');
@@ -176,7 +176,7 @@ export function mountGithub(username, root) {
           cell.title = `${key}: ${count} returned public events`;
           calendar.append(cell);
         }
-        activity.append(calendar, element('p', 'Last 91 days · up to 100 returned public events. This is not the full GitHub contribution graph.', 'gh-note'));
+        activity.append(calendar, element('p', 'Last 91 days / up to 100 returned public events. This is not the full GitHub contribution graph.', 'gh-note'));
         for (const event of events.slice(0, 8)) {
           const row = element('article', '', 'gh-event');
           const labels = {PushEvent: 'Pushed to', CreateEvent: 'Created', WatchEvent: 'Starred', ForkEvent: 'Forked', IssuesEvent: 'Updated an issue in', PullRequestEvent: 'Updated a pull request in'};
@@ -300,7 +300,7 @@ export function mountGithub(username, root) {
       } else {
         row.append(button(text, () => go({...route, item: item.number || item.sha}), 'gh-link'));
       }
-      row.append(element('small', item.sha?.slice(0, 7) || `#${item.number || item.tag_name} · ${item.state || 'Release'}`));
+      row.append(element('small', item.sha?.slice(0, 7) || `#${item.number || item.tag_name} / ${item.state || 'Release'}`));
       main.append(row);
     }
     if (!items.length) main.append(element('p', `No ${route.tab.toLowerCase()} on this page.`));

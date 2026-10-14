@@ -2,7 +2,7 @@
 
 Reego John-Annaselvan's research portfolio: an expandable resume with a blueprint layout and an integrated [GitHub browser](https://github.com/ReegoJA/custom-github-theme).
 
-Created October 12, 2026 · Version 0.3.0
+Created October 12, 2026 / Version 0.3.0
 
 Research and project entries open in place, with each column expanding independently. The site includes keyboard navigation, responsive layouts, and page zoom.
 
