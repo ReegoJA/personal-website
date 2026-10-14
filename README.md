@@ -1,12 +1,12 @@
 # Personal website
 
-Reego John-Annaselvan's research portfolio: an expandable resume with a blueprint layout and an integrated [GitHub browser](https://github.com/ReegoJA/custom-github-theme).
+Reego John-Annaselvan's research portfolio: an expandable resume with a blueprint layout and an integrated [GitHub browser](https://github.com/ReegoJA/repoport).
 
 Created October 12, 2026 / Version 0.3.0
 
 Research and project entries open in place, with each column expanding independently. The site includes keyboard navigation, responsive layouts, and page zoom.
 
-STOPLAB is a separate research project. SENSORLAB and LUMEN are planned, interactive project demos are not yet included in the website.
+[LastLabel](https://github.com/ReegoJA/lastlabel) is the active-learning research project. SENSORLAB and LUMEN are planned, interactive project demos are not yet included in the website.
 
 ## Structure
 
@@ -22,7 +22,7 @@ STOPLAB is a separate research project. SENSORLAB and LUMEN are planned, interac
 
 ## Credits and references
 
-- [Custom GitHub Theme](https://github.com/ReegoJA/custom-github-theme), maintained by Reego John-Annaselvan - MIT-licensed component, no external runtime libraries.
+- [Repoport](https://github.com/ReegoJA/repoport), maintained by Reego John-Annaselvan - MIT-licensed component, no external runtime libraries.
 - GitHub - public repository data and profile images through its REST API and avatar service.
 - Node.js contributors / OpenJS Foundation - development server and tests, using built-in Node modules.
 - Kristories and contributors, [awesome-guidelines](https://github.com/Kristories/awesome-guidelines), Google and contributors, [JavaScript](https://google.github.io/styleguide/jsguide.html) and [HTML/CSS](https://google.github.io/styleguide/htmlcssguide.html) guides - style references.
@@ -43,8 +43,8 @@ Portfolio code, design, and personal content: [all rights reserved](LICENSE). Th
 
 | Date | Update |
 | --- | --- |
-| October 12, 2026 | Initial portfolio - `push local backup` |
-| October 12, 2026 | GitHub browsing and zoom controls - `push local copy 2` |
+| October 12, 2026 | Initial portfolio |
+| October 12, 2026 | GitHub browsing and zoom controls |
 | October 12, 2026 | Unified entry highlighting, reusable GitHub theme integration, simplified contact line |
-| October 12–13, 2026 | Resume alignment, GPA update, footer cleanup, and hover refinements |
+| October 12â€“13, 2026 | Resume alignment, GPA update, footer cleanup, and hover refinements |
 | October 13, 2026 | STOPLAB scope documented, prior resume wording restored |
