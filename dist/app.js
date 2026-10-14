@@ -1,3 +1,4 @@
+import {setupPapers} from './papers.js';
 import {setupNotes} from './notes.js';
 import './github-theme/github-theme.js';
 
@@ -18,7 +19,7 @@ async function setEntryOpen(entry, open) {
   const outgoing = open ? bullets : expanded;
   const incoming = open ? expanded : bullets;
   const duration = reducedMotion.matches ? 0 : 230;
-  const scale = Number(document.querySelector('.page').style.zoom) || 1;
+  const scale = Number(document.querySelector('.paper-stack').style.zoom) || 1;
   const startHeight = wrapper.getBoundingClientRect().height / scale;
   wrapper.style.height = `${startHeight}px`;
   wrapper.style.overflow = 'hidden';
@@ -158,7 +159,7 @@ const zoomIn = document.querySelector('#zoom-in');
 
 function applyZoom() {
   const fit = innerWidth > 850 ? Math.min(2.5, innerWidth * .86 / 816) : 1;
-  document.querySelector('.page').style.zoom = String(fit * zoom);
+  document.querySelector('.paper-stack').style.zoom = String(fit * zoom);
   document.dispatchEvent(new Event('pagezoom'));
   zoomOut.disabled = zoom <= .7;
   zoomIn.disabled = zoom >= 1.5;
@@ -176,6 +177,7 @@ zoomIn.addEventListener('click', () => {
 window.addEventListener('resize', applyZoom);
 applyZoom();
 
+setupPapers();
 setupNotes();
 
 document.querySelector('#download-resume').addEventListener('click', async (event) => {
