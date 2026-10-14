@@ -1,3 +1,4 @@
+import {setupNotes} from './notes.js';
 import './github-theme/github-theme.js';
 
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
@@ -43,6 +44,7 @@ async function setEntryOpen(entry, open) {
   wrapper.style.height = '';
   wrapper.style.overflow = '';
   delete entry.dataset.busy;
+  entry.dispatchEvent(new CustomEvent('entrychange', {bubbles: true, detail: {open}}));
 }
 
 for (const entry of document.querySelectorAll('.interactive-entry')) {
@@ -50,17 +52,17 @@ for (const entry of document.querySelectorAll('.interactive-entry')) {
     if (event.target.closest('a')) return;
     if (event.target.closest('.collapse-button')) {
       setEntryOpen(entry, false).then(() => {
-        entry.querySelector('.entry-trigger').focus({preventScroll: true});
+        if (event.detail === 0) entry.querySelector('.entry-trigger').focus({preventScroll: true});
       });
     } else if (event.target.closest('.entry-trigger, .entry-bullets')) {
-      setEntryOpen(entry, true);
+      setEntryOpen(entry, entry.dataset.open !== 'true');
     }
   });
   entry.addEventListener('keydown', (event) => {
     if (!event.target.matches('.entry-trigger, .entry-bullets')) return;
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
-      setEntryOpen(entry, true);
+      setEntryOpen(entry, entry.dataset.open !== 'true');
     }
     if (event.key === 'Escape') setEntryOpen(entry, false);
   });
@@ -85,7 +87,7 @@ function bindPanel(name) {
   collapse.addEventListener('click', () => {
     panel.hidden = true;
     trigger.setAttribute('aria-expanded', 'false');
-    trigger.focus({preventScroll: true});
+    if (document.activeElement === collapse) trigger.focus({preventScroll: true});
   });
 }
 
@@ -101,13 +103,16 @@ let hintTarget;
 function showHint(target, message) {
   const paper = document.querySelector('.page').getBoundingClientRect();
   const bounds = target.getBoundingClientRect();
-  const right = bounds.left + bounds.width / 2 > innerWidth / 2;
-  const space = right ? innerWidth - paper.right : paper.left;
-  marginHint.style.width = `${Math.max(0, space - 20)}px`;
-  marginHint.style.left = `${right ? paper.right + 10 : 10}px`;
-  marginHint.style.top = `${Math.max(75, Math.min(bounds.top, innerHeight - 70))}px`;
+  const viewport = document.documentElement.clientWidth;
+  const right = bounds.left + bounds.width / 2 > viewport / 2;
+  const space = right ? viewport - paper.right : paper.left;
+  const width = Math.min(150, Math.max(0, space - 32));
+  marginHint.hidden = width < 60;
+  marginHint.style.width = `${width}px`;
+  marginHint.style.left = `${right ? viewport - 16 - width : 16}px`;
   marginHint.textContent = message;
-  marginHint.hidden = space < 65;
+  marginHint.style.top = `${Math.max(75, Math.min(bounds.top,
+      innerHeight - marginHint.offsetHeight - 16))}px`;
 }
 
 function updateHint(event) {
@@ -121,11 +126,7 @@ function updateHint(event) {
   if (hintTarget.matches('a')) {
     message = 'Copy email to clipboard?';
   } else if (entry) {
-    if (entry.dataset.open === 'true') {
-      marginHint.hidden = true;
-      return;
-    }
-    message = `Expand ${entry.dataset.label}?`;
+    message = `${entry.dataset.open === 'true' ? 'Collapse' : 'Expand'} ${entry.dataset.label}?`;
   } else {
     const label = hintTarget.id === 'open-github' ? 'GitHub' : 'sources';
     message = `${hintTarget.getAttribute('aria-expanded') === 'true' ? 'Collapse' : 'Expand'} ${label}?`;
@@ -158,6 +159,7 @@ const zoomIn = document.querySelector('#zoom-in');
 function applyZoom() {
   const fit = innerWidth > 850 ? Math.min(2.5, innerWidth * .86 / 816) : 1;
   document.querySelector('.page').style.zoom = String(fit * zoom);
+  document.dispatchEvent(new Event('pagezoom'));
   zoomOut.disabled = zoom <= .7;
   zoomIn.disabled = zoom >= 1.5;
   marginHint.hidden = true;
@@ -173,3 +175,22 @@ zoomIn.addEventListener('click', () => {
 });
 window.addEventListener('resize', applyZoom);
 applyZoom();
+
+setupNotes();
+
+document.querySelector('#download-resume').addEventListener('click', async (event) => {
+  event.preventDefault();
+  const link = event.currentTarget;
+  try {
+    const response = await fetch('https://raw.githubusercontent.com/ReegoJA/personal-website/main/dist/Resume.pdf', {cache: 'no-store'});
+    if (!response.ok) throw new Error('Resume unavailable');
+    const url = URL.createObjectURL(await response.blob());
+    const download = document.createElement('a');
+    download.href = url;
+    download.download = link.download;
+    download.click();
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
+  } catch {
+    location.href = link.href;
+  }
+});

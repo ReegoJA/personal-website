@@ -13,8 +13,8 @@ button { cursor: pointer; }
 .entry-trigger h3, .entry-trigger p, .entry-bullets li { transition: color 140ms; }
 :focus-visible { outline: 1px solid var(--gold); outline-offset: 3px; }
 .entry-content { position: relative; }
-.interactive-entry:is(:hover, :focus-within):not(:has(a[href^="mailto:"]:is(:hover, :focus))) :is(.entry-trigger h3, .entry-trigger p, .entry-trigger a, .entry-bullets li),
-.interactive-entry:is(:hover, :focus-within):not(:has(a[href^="mailto:"]:is(:hover, :focus))) .entry-bullets li::before { color: var(--gold) !important; }
+.interactive-entry:has(.entry-trigger:is(:hover, :focus-visible), .entry-bullets:is(:hover, :focus-visible)):not(:has(a[href^="mailto:"]:is(:hover, :focus-visible))) :is(.entry-trigger h3, .entry-trigger p, .entry-trigger a, .entry-bullets li),
+.interactive-entry:has(.entry-trigger:is(:hover, :focus-visible), .entry-bullets:is(:hover, :focus-visible)):not(:has(a[href^="mailto:"]:is(:hover, :focus-visible))) .entry-bullets li::before { color: var(--gold) !important; }
 .contact-email { color: inherit; text-decoration: none; }
 .zoom-controls { position: fixed; right: 12px; top: 12px; z-index: 5; text-align: center; color: var(--ink); font: 10px Consolas, monospace; }
 .zoom-controls > div { display: flex; gap: 4px; margin-bottom: 5px; }
@@ -81,3 +81,24 @@ footer .footer-summary { flex: 1; }
 .margin-hint:empty { display: none; }
 a[href^="mailto:"]:is(:hover, :focus) { color: #c63b82 !important; }
 a[href^="mailto:"]:focus-visible { outline-color: #c63b82; }
+#open-github:is(:hover, :focus-visible),
+#download-resume:is(:hover, :focus-visible) { color: #c63b82 !important; }
+#open-github:focus-visible, #download-resume:focus-visible { outline-color: #c63b82; }
+#download-resume { color: inherit; text-decoration: none; }
+.margin-hint { box-sizing: border-box; max-width: calc(100vw - 32px); }
+.sticky-note {
+  position: fixed; z-index: 4; width: 112px; padding: 13px 10px 10px;
+  color: #635628; background: #fff1a8;
+  box-shadow: 1px 4px 7px #26374725; pointer-events: none;
+  font: 13px/1.35 Calibri, Arial, sans-serif; text-align: center;
+  transform: rotate(var(--tilt, -5deg)); transform-origin: 50% 0;
+  transition: translate 180ms ease, opacity 180ms ease;
+}
+.sticky-note::before { content: ''; position: absolute; inset: 0 0 auto; height: 10px; background: #e6d67530; }
+.sticky-note svg { width: 37px; height: 23px; display: block; margin: 2px auto 0; fill: none; stroke: currentColor; stroke-width: 1.3; }
+.sticky-note[data-side="left"] svg { transform: scaleX(-1); }
+.sticky-note[data-near="true"] { translate: 0 45px; opacity: .75; }
+.sticky-note[data-leaving="true"] { animation: note-away 330ms ease-in forwards; }
+@keyframes note-away { to { opacity: 0; transform: translateY(-18px) rotate(9deg) scale(.9); } }
+@media (max-width: 850px) { .sticky-note { display: none; } }
+@media print { .sticky-note, .margin-hint, .zoom-controls { display: none !important; } }

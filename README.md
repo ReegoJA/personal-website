@@ -17,6 +17,8 @@ Research and project entries open in place, with each column expanding independe
 | `dist/interactions.css` | Animations, responsive styles, and interactive states |
 | `dist/app.js` | Section expansion, email copying, zoom, and GitHub integration |
 | `dist/github-theme/` | Bundled GitHub framework and its MIT license |
+| `dist/notes.js` | Contextual margin prompts |
+| `dist/resume.html`, `dist/Resume.pdf` | Printable resume source and current download |
 | `dist/favicon.svg` | Site icon |
 | `scripts/`, `tests/` | Development server and API-client tests |
 
@@ -48,3 +50,5 @@ Portfolio code, design, and personal content: [all rights reserved](LICENSE). Th
 | October 12, 2026 | Unified entry highlighting, reusable GitHub theme integration, simplified contact line |
 | October 12â€“13, 2026 | Resume alignment, GPA update, footer cleanup, and hover refinements |
 | October 13, 2026 | STOPLAB scope documented, prior resume wording restored |
+
+| October 14, 2026 | Last Label naming, resume download, margin prompts, and interaction fixes |
