@@ -1,5 +1,5 @@
 /** Swaps the two sheets while keeping the concealed paper keyboard accessible. */
-export function setupPapers() {
+export function setupPapers(collapsePaper) {
   const stack = document.querySelector('.paper-stack');
   const papers = [...stack.querySelectorAll(':scope > .page')];
   let busy = false;
@@ -7,6 +7,8 @@ export function setupPapers() {
     if (busy || !incoming.classList.contains('is-back')) return;
     busy = true;
     const outgoing = papers.find((paper) => paper !== incoming);
+    for (const child of outgoing.children) child.inert = true;
+    await collapsePaper(outgoing);
     const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
     const duration = reduced ? 0 : 300;
     const lift = incoming.animate([

@@ -177,7 +177,20 @@ zoomIn.addEventListener('click', () => {
 window.addEventListener('resize', applyZoom);
 applyZoom();
 
-setupPapers();
+setupPapers(async (paper) => {
+  marginHint.hidden = true;
+  for (const name of ['github', 'sources']) {
+    const panel = paper.querySelector(name === 'github' ? '#github-section' : '#sources');
+    if (panel) panel.hidden = true;
+    paper.querySelector(`#open-${name}`)?.setAttribute('aria-expanded', 'false');
+  }
+  await Promise.all([...paper.querySelectorAll('.interactive-entry')].map(async (entry) => {
+    if (entry.dataset.busy) {
+      await new Promise((resolve) => entry.addEventListener('entrychange', resolve, {once: true}));
+    }
+    await setEntryOpen(entry, false);
+  }));
+});
 setupNotes();
 
 document.querySelector('#download-resume').addEventListener('click', async (event) => {

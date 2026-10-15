@@ -17,6 +17,13 @@ export function setupNotes() {
       note.addEventListener('click', () => document.dispatchEvent(new Event('showpersonal')));
     } else note.setAttribute('aria-hidden', 'true');
     note.textContent = prompt.text;
+    if (prompt.key === 'personal') {
+      note.textContent = 'View personal';
+      const lastLine = document.createElement('span');
+      lastLine.textContent = 'interests →';
+      lastLine.style.whiteSpace = 'nowrap';
+      note.append(lastLine);
+    }
     if (prompt.arrow) note.insertAdjacentHTML('beforeend', '<svg viewBox="0 0 40 25" aria-hidden="true"><path d="M35 3Q30 19 6 17M12 10L5 17L13 23"/></svg>');
     paper.append(note);
     notes.set(prompt.key, note);
@@ -40,20 +47,8 @@ export function setupNotes() {
     const contact = paper.querySelector('.contact');
     const columns = paper.querySelector('.columns');
     if (notes.has('contacts')) notes.get('contacts').style.top = `${contact.offsetTop - 12}px`;
-    if (notes.has('modules')) notes.get('modules').style.top = `${columns.offsetTop - (innerWidth <= 560 ? 60 : 26)}px`;
+    if (notes.has('modules')) notes.get('modules').style.top = `${columns.offsetTop - (innerWidth <= 560 ? 60 : 6)}px`;
   }
-  paper.addEventListener('pointermove', (event) => {
-    for (const [key, note] of notes) {
-      if (key === 'personal') continue;
-      const bounds = note.getBoundingClientRect();
-      const near = event.clientX > bounds.left - 24 && event.clientX < bounds.right + 24 &&
-        event.clientY > bounds.top - 24 && event.clientY < bounds.bottom + 24;
-      note.dataset.near = String(near && !!event.target.closest('a, button, .entry-trigger, .entry-bullets'));
-    }
-  }, {passive: true});
-  paper.addEventListener('pointerleave', () => {
-    for (const note of notes.values()) note.dataset.near = 'false';
-  });
   new ResizeObserver(place).observe(paper.querySelector('.sheet'));
   addEventListener('resize', place);
   document.addEventListener('pagezoom', place);
