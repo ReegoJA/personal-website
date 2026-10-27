@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="interactions.css?v=20261014d">
 <script type="module" src="app.js?v=20261014d"></script>
-</head>
+<link rel="stylesheet" href="research-demos.css"><script type="module" src="research-demos.js"></script></head>
 <body><div class="zoom-controls" aria-label="Page zoom"><div><button id="zoom-out" type="button" aria-label="Zoom out">−</button><button id="zoom-in" type="button" aria-label="Zoom in">+</button></div><span>[ZOOM]</span></div><a class="skip-link" href="#experience">Skip to experience</a><main class="paper-stack" aria-label="Research and personal papers"><section class="page" id="research-paper" aria-label="Research paper"><div class="sheet">
 <header><div class="eyebrow"><span>RESEARCH / COMPUTATIONAL SCIENCE</span><span>MODELING / LEARNING / SIMULATION</span></div>
 <h1>Reego John-Annaselvan</h1><p class="subtitle">Computer Science / Modeling / Machine learning</p></header>
@@ -33,6 +33,7 @@
 <li>Assess numerical convergence, local strain, and the physical limits of detector models.</li>
 </ul></div>
 <div class="expanded-content" id="vip-expanded" hidden>
+<figure class="module-figure"><img src="assets/gan-modeling.svg" alt="Conceptual map connecting atomic displacement, strain, and polarization with molecular dynamics and electronic-structure modeling"><figcaption>Original schematic based on the public capabilities of <a href="https://www.lammps.org/" target="_blank" rel="noopener noreferrer">LAMMPS</a> and <a href="https://www.quantum-espresso.org/" target="_blank" rel="noopener noreferrer">Quantum ESPRESSO</a>. Illustrative only, with no project data or device design.</figcaption></figure>
 
 <p class="expanded-description">I lead the simulation subteam in Georgia Tech's Compound Semiconductor Products VIP partnership with Sandia National Laboratories. Our modeling connects GaN strain and polarization with atomic recoil dynamics through Quantum ESPRESSO calculations and LAMMPS simulations. Static material-response calculations, controlled recoil studies, and time-step and cell-size checks establish the numerical basis for evaluating detector concepts. The scope is material response and detector feasibility, with electrical detection performance dependent on device geometry, bias, source conditions, and readout.</p>
 <button class="collapse-button" type="button">[Collapse VIP]</button>
@@ -51,6 +52,7 @@
 <li>Studied when to stop requesting annotations while retaining predictive performance.</li>
 </ul></div>
 <div class="expanded-content" id="tcnj-expanded" hidden>
+<figure class="module-figure"><img src="assets/stabilizing-predictions.svg" alt="Three model snapshots predicting labels for the same eight unlabeled examples, with predictions stabilizing across rounds"><figcaption>Original teaching diagram of SP from <a href="https://aclanthology.org/W09-1107/" target="_blank" rel="noopener noreferrer">Bloodgood and Vijay-Shanker (2009)</a>. The example labels are illustrative, not experimental results. SP uses Cohen's kappa over a window of comparisons. Stable predictions do not guarantee accuracy.</figcaption></figure>
 
 <p class="expanded-description">During my freshman year at The College of New Jersey, I worked with Dr. Michael Bloodgood on stopping criteria for active learning using small-text. The research examined when a learner can stop requesting annotations while retaining predictive performance. This experience motivated LastLabel, my subsequent independent study of published stopping methods under annotation noise and alternative stop-set constructions.</p>
 <button class="collapse-button" type="button">[Collapse TCNJ research]</button>
@@ -87,8 +89,7 @@
 <li>Evaluated published SP and PCF stopping rules across 15,360 learning trajectories on six binary tasks.</li>
 <li>Analyzed paired cost-performance differences, budget fallbacks, noise interactions, and stopping-convention sensitivity.</li>
 </ul></div>
-<div class="expanded-content" id="lastlabel-expanded" hidden>
-<figure class="module-figure"><img src="assets/lastlabel-cost-performance.png" alt="Paired annotation-count and macro-F1 differences. The full study reports assumptions and uncertainty." loading="lazy"><figcaption>Paired annotation-count and macro-F1 differences. The full study reports assumptions and uncertainty.</figcaption></figure>
+<div class="expanded-content" id="lastlabel-expanded" hidden><div class="research-demo" id="lastlabel-replay" aria-label="LastLabel experiment replay"><p>Loading saved experiment...</p></div>
 <p class="expanded-description">LastLabel is an independent empirical study inspired by my earlier work with Dr. Michael Bloodgood. It evaluates methods by Bloodgood and his coauthors using small-text, simulated annotation noise, and alternative stop sets. The completed study includes 15,360 trajectories, paired uncertainty estimates, budget and sampling ablations, and a technical report. Annotation savings sometimes accompany lower predictive performance, while some equal outcomes reflect shared budget fallback. Four text tasks share one corpus, and the findings are descriptive rather than a universal ranking or a new stopping algorithm. <a href="https://github.com/ReegoJA/lastlabel/releases/tag/v0.4.0" target="_blank" rel="noopener noreferrer">Study release and reproducible results ↗</a></p>
 <button class="collapse-button" type="button">[Collapse Last Label]</button>
 </div>
@@ -125,7 +126,7 @@
 </ul></div>
 <div class="expanded-content" id="lumen-expanded" hidden>
 <figure class="module-figure"><img src="assets/lumen-cornell.png" alt="LUMEN Cornell scene, rendered on the CPU at 128 samples per pixel." loading="lazy"><figcaption>LUMEN Cornell scene, rendered on the CPU at 128 samples per pixel.</figcaption></figure>
-<p class="expanded-description">LUMEN is a physically based path tracer for procedural scenes containing diffuse surfaces, ideal mirrors, and glass. Its multithreaded C++ renderer combines BVH traversal, area-light sampling, and multiple importance sampling. Deterministic sample streams and linear image output support reproducible error comparisons. The implementation also includes a CUDA wavefront backend and an OpenGL frontend for progressively displaying CPU renders.</p>
+<p class="expanded-description">LUMEN is a physically based path tracer for procedural scenes containing diffuse surfaces, ideal mirrors, and glass. Its multithreaded C++ renderer combines BVH traversal, area-light sampling, and multiple importance sampling. Deterministic sample streams and linear image output support reproducible error comparisons. The implementation also includes a CUDA wavefront backend and an OpenGL frontend for progressively displaying CPU renders. <a href="https://github.com/ReegoJA/lumen" target="_blank" rel="noopener noreferrer">Source code and rendering benchmarks ↗</a></p>
 <button class="collapse-button" type="button">[Collapse LUMEN]</button>
 </div>
 </div>

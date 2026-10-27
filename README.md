@@ -20,6 +20,8 @@ Research and project entries open in place, with each column expanding independe
 | `dist/notes.js`, `dist/papers.js` | Paper-attached prompts and sheet transitions |
 | `dist/fonts/` | Caveat handwriting font and OFL license |
 | `dist/resume.html`, `dist/Resume.pdf` | Printable resume source and current download |
+| `dist/research-demos.js`, `dist/research-demos.css` | Saved-experiment replay and research visuals |
+| `dist/assets/` | Public experiment excerpts, original diagrams, and rendered images |
 | `dist/favicon.svg` | Site icon |
 | `scripts/`, `tests/` | Development server and API-client tests |
 
@@ -33,6 +35,10 @@ Research and project entries open in place, with each column expanding independe
 - Kristories and contributors, [awesome-guidelines](https://github.com/Kristories/awesome-guidelines), Google and contributors, [JavaScript](https://google.github.io/styleguide/jsguide.html) and [HTML/CSS](https://google.github.io/styleguide/htmlcssguide.html) guides - style references.
 
 Research references:
+
+The LastLabel replay uses 24 records from [v0.4.0](https://github.com/ReegoJA/lastlabel/releases/tag/v0.4.0): seed 100, linear SVM, symmetric noise, uncertainty sampling, all six tasks and four noise levels. Record paths and SHA-256 hashes preserve provenance. It displays saved outcomes without retraining or recomputing stopping decisions. The selected seed illustrates behavior and does not replace the full study's paired analysis.
+
+The SP and GaN diagrams are original explanatory illustrations, not reproduced figures or experimental results. The GaN image contains no private project data. LUMEN's image is an actual CPU render from the [renderer](https://github.com/ReegoJA/lumen).
 
 - Bloodgood and Vijay-Shanker, [A Method for Stopping Active Learning Based on Stabilizing Predictions](https://aclanthology.org/W09-1107/).
 - Kurlandski and Bloodgood, [Impact of Stop Sets on Stopping Active Learning](https://arxiv.org/abs/2201.05460).
@@ -59,3 +65,4 @@ Portfolio code, design, and personal content: [all rights reserved](LICENSE). Th
 | October 14, 2026 | Paper-attached handwritten prompts and personal-interest sheet transitions |
 | October 14, 2026 | Collapse open content before paper switches and refine stationary prompts |
 | October 26, 2026 | Repository-backed project descriptions, research figures, and refreshed resume download |
+| October 26, 2026 | LastLabel experiment replay and original active-learning and GaN diagrams |
