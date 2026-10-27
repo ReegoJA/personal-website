@@ -134,3 +134,7 @@ a[href^="mailto:"]:focus-visible { outline-color: #c63b82; }
   #research-paper .contact { padding-right: 82px; min-height: 60px; }
   #research-paper .education { margin-bottom: 65px; }
 }
+
+.module-figure { margin: 0 0 1rem; }
+.module-figure img { display: block; max-width: 100%; width: 100%; height: auto; }
+.module-figure figcaption { color: var(--ink); font-size: .8em; margin-top: .5em; }

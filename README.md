@@ -58,3 +58,4 @@ Portfolio code, design, and personal content: [all rights reserved](LICENSE). Th
 
 | October 14, 2026 | Paper-attached handwritten prompts and personal-interest sheet transitions |
 | October 14, 2026 | Collapse open content before paper switches and refine stationary prompts |
+| October 26, 2026 | Repository-backed project descriptions, research figures, and refreshed resume download |

@@ -43,11 +43,11 @@ footer { border-top:.5pt solid #b7c1c7; margin:10pt 6pt 0; padding-top:6pt; font
 <article>
 <h3>Compound Semiconductor Products VIP</h3>
 <p class="meta">Subteam Lead / Georgia Tech / Dr. William Hunt<br>Advisor: <a href="mailto:bill.hunt@ece.gatech.edu" style="color:inherit;text-decoration:none">bill.hunt@ece.gatech.edu</a></p>
-<p class="overview">Atomistic-to-electronic modeling of GaN to investigate the physical mechanism of neutron detection</p>
+<p class="overview">GaN strain, polarization, and atomic recoil modeling for neutron-detector research</p>
 <ul>
-<li>Lead the simulation subteam within Georgia Tech&#x27;s VIP partnership with Sandia National Laboratories.</li>
-<li>Developing a workflow linking GaN molecular-dynamics trajectories to Quantum ESPRESSO calculations of electronic response.</li>
-<li>Current scope: controlled lattice disturbances, atomic-snapshot conversion, and work-function analysis with numerical convergence checks.</li>
+<li>Lead the simulation subteam within Georgia Tech's VIP partnership with Sandia National Laboratories.</li>
+<li>Contribute to Quantum ESPRESSO strain-polarization calculations and LAMMPS recoil simulations.</li>
+<li>Assess numerical convergence, local strain, and the physical limits of detector models.</li>
 </ul>
 </article>
 <article>
@@ -55,46 +55,45 @@ footer { border-top:.5pt solid #b7c1c7; margin:10pt 6pt 0; padding-top:6pt; font
 <p class="meta">The College of New Jersey / Dr. Michael Bloodgood<br>Advisor: <a href="mailto:mbloodgood@tcnj.edu" style="color:inherit;text-decoration:none">mbloodgood@tcnj.edu</a></p>
 <p class="overview">Research on active-learning stopping criteria that balance annotation cost and predictive performance</p>
 <ul>
-<li>Implemented comparative experiments for active-learning stopping criteria; analyzed annotation cost against predictive performance.</li>
-<li>Built reproducible evaluation scripts to track learning curves, stopping decisions, and variation across experimental runs.</li>
+<li>Researched active-learning stopping criteria with Dr. Michael Bloodgood using small-text.</li>
+<li>Studied when to stop requesting annotations while retaining predictive performance.</li>
 </ul>
 </article>
 <article>
 <h3>Nano PV Solar</h3>
 <p class="meta">Internship experience / Three years<br>Company contact: <a href="mailto:info@nano-pv.com" style="color:inherit;text-decoration:none">info@nano-pv.com</a></p>
-<p class="overview">Computational characterization of photovoltaic device performance</p>
+<p class="overview">Internship experience in photovoltaic technology</p>
 <ul>
-<li>Developed a Python analysis framework for current-voltage characterization, extracting device parameters and comparing measured response with fitted models.</li>
-<li>Evaluated parameter sensitivity and measurement variability across test conditions to distinguish device trends from testing artifacts.</li>
+<li>Completed three years of internship experience at Nano PV Solar.</li>
 </ul>
 </article>
-<h2>RESEARCH + PROJECT TECHNOLOGIES</h2><p class="small"><b>Research workflow:</b> Molecular dynamics / DFT / Quantum ESPRESSO<br><b>Planned ML stack:</b> Python / PyTorch / JAX / scikit-learn<br><b>Planned systems stack:</b> C++ / CUDA / OpenGL / Linux / Git / CMake</p>
+<h2>RESEARCH + PROJECT TECHNOLOGIES</h2><p class="small"><b>Research:</b> Quantum ESPRESSO / LAMMPS / Python<br><b>Active learning:</b> small-text / scikit-learn / NumPy<br><b>Rendering:</b> C++ / CMake / CUDA / OpenGL</p>
 </section><section><h2>C / PERSONAL PROJECTS</h2>
 <article>
 <h3>Last Label / When should learning stop?</h3>
-<p class="meta">Python / small-text / scikit-learn / Personal</p>
-<p class="overview">Benchmarking the reliability of active-learning stopping rules under label noise and sampling bias</p>
+<p class="meta">Python / small-text / scikit-learn</p>
+<p class="overview">Annotation cost and predictive performance under noisy labels and biased stop sets</p>
 <ul>
-<li>Reproduce prediction-stability stopping rules; evaluate sensitivity to label noise, class imbalance, and biased stop sets.</li>
-<li>Measure premature stopping and excess labeling through repeated trials, ablations, and reproducible experiments.</li>
+<li>Evaluated published SP and PCF stopping rules across 15,360 learning trajectories on six binary tasks.</li>
+<li>Analyzed paired cost-performance differences, budget fallbacks, noise interactions, and stopping-convention sensitivity.</li>
 </ul>
 </article>
 <article>
 <h3>SENSORLAB / Learning where to measure</h3>
-<p class="meta">Python / JAX / SciPy / Personal</p>
-<p class="overview">Simulation-guided sensor placement for estimating thermal properties from sparse, noisy measurements</p>
+<p class="meta">Thermal inference / Experimental design</p>
+<p class="overview">Research concept: sensor placement for thermal-property inference</p>
 <ul>
-<li>Develop a differentiable heat solver for material-parameter inference; verify gradients against finite differences.</li>
-<li>Compare adaptive, uniform, and random sensor layouts using parameter error, uncertainty, and identifiability.</li>
+<li>Research question: how does measurement location affect thermal-property recovery?</li>
+<li>Study design: adaptive, uniform, and random layouts with matched measurement budgets.</li>
 </ul>
 </article>
 <article>
 <h3>LUMEN / CPU and GPU path tracer</h3>
-<p class="meta">C++ / CUDA / OpenGL / Planned</p>
-<p class="overview">CPU/GPU path tracing for physically based lighting simulation</p>
+<p class="meta">C++ / CUDA / OpenGL</p>
+<p class="overview">Path tracing for physically based lighting simulation</p>
 <ul>
-<li>Implement BVH traversal and multiple importance sampling; extend a CPU reference tracer to a GPU wavefront pipeline.</li>
-<li>Benchmark image error, throughput, and memory across scenes; verify convergence and CPU/GPU consistency.</li>
+<li>Built a multithreaded CPU path tracer with BVH traversal, area lights, and multiple importance sampling.</li>
+<li>Implemented a CUDA wavefront backend and progressive OpenGL viewer.</li>
 </ul>
 </article>
 <h2>RESEARCH INTERESTS</h2><p class="small">Data-efficient learning / Scientific computing / Simulation and inference</p></section></div>
