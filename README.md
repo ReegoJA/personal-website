@@ -70,3 +70,5 @@ Portfolio code, design, and personal content: [all rights reserved](LICENSE). Th
 | October 27, 2026 | Simplified research demonstrations, rendered light animation, and confirmed Nano PV experience |
 
 | October 27, 2026 | Task-based research findings and expanded technologies |
+
+| October 27, 2026 | Direct light-position slider using 13 rendered positions |

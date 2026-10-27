@@ -68,22 +68,14 @@ async function setupComparison() {
 
 if (panel) setupComparison();
 
-const motion = document.querySelector('#lumen-motion');
-if (motion) {
-  const image = document.querySelector('#lumen-animation');
-  let playing = false;
-  motion.addEventListener('click', () => {
-    playing = !playing;
-    image.src = playing ? 'assets/lumen-light-motion.webp' : 'assets/lumen-light-still.png';
-    motion.textContent = playing ? 'Stop animation' : 'Move the light';
-    motion.setAttribute('aria-pressed', String(playing));
-  });
-  document.querySelector('#lumen').addEventListener('entrychange', () => {
-    if (document.querySelector('#lumen').dataset.open !== 'true') {
-      playing = false;
-      image.src = 'assets/lumen-light-still.png';
-      motion.textContent = 'Move the light';
-      motion.setAttribute('aria-pressed', 'false');
-    }
+const lightPosition = document.querySelector('#lumen-position');
+if (lightPosition) {
+  const view = document.querySelector('#lumen-light-view');
+  lightPosition.addEventListener('input', () => {
+    const frame = Number(lightPosition.value);
+    view.style.backgroundPosition = `${100 * frame / 12}% center`;
+    const position = frame < 6 ? 'Left of center' : frame > 6 ? 'Right of center' : 'Centered';
+    lightPosition.setAttribute('aria-valuetext', `${position}, position ${frame + 1} of 13`);
+    view.setAttribute('aria-label', `LUMEN rendering with the ceiling light ${position.toLowerCase()}`);
   });
 }

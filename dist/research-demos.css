@@ -28,3 +28,8 @@
 .finding-bar { height: 100%; background: #286b9d; }
 .finding-bar.easy { background: #a24f87; }
 @media (max-width: 460px) { .replay-controls, .replay-results { grid-template-columns: 1fr; } }
+
+#lumen-light-view { width: 100%; aspect-ratio: 1; background-image: url('assets/lumen-light-strip.webp'); background-size: 1300% 100%; background-position: 50% center; background-repeat: no-repeat; }
+.light-position { display: block; font-size: .9em; color: #20354c; }
+.light-position input { display: block; width: 100%; margin: .75rem 0; accent-color: #a24f87; cursor: ew-resize; }
+.light-ends { display: flex; justify-content: space-between; font-size: .8em; }
