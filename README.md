@@ -36,7 +36,7 @@ Research and project entries open in place, with each column expanding independe
 
 Research references:
 
-The LastLabel replay uses 24 records from [v0.4.0](https://github.com/ReegoJA/lastlabel/releases/tag/v0.4.0): seed 100, linear SVM, symmetric noise, uncertainty sampling, all six tasks and four noise levels. Record paths and SHA-256 hashes preserve provenance. It displays saved outcomes without retraining or recomputing stopping decisions. The selected seed illustrates behavior and does not replace the full study's paired analysis.
+The LastLabel demo compares two saved outcomes from run-05781.json in the public v0.4.0 data: graphics versus Windows text classification, seed 100, 30% simulated symmetric label noise. The checking sample changes while the training sequence and PCF rule remain fixed. This example was selected to illustrate a clear trade-off, not to estimate the average effect. The source JSON retains 24 records and their release hashes for provenance.
 
 The SP and GaN diagrams are original explanatory illustrations, not reproduced figures or experimental results. The GaN image contains no private project data. LUMEN's image is an actual CPU render from the [renderer](https://github.com/ReegoJA/lumen).
 
@@ -66,3 +66,5 @@ Portfolio code, design, and personal content: [all rights reserved](LICENSE). Th
 | October 14, 2026 | Collapse open content before paper switches and refine stationary prompts |
 | October 26, 2026 | Repository-backed project descriptions, research figures, and refreshed resume download |
 | October 26, 2026 | LastLabel experiment replay and original active-learning and GaN diagrams |
+
+| October 27, 2026 | Simplified research demonstrations, rendered light animation, and confirmed Nano PV experience |

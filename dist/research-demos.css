@@ -13,4 +13,12 @@
 .replay-position { font: .8em monospace; }
 .demo-caption, .module-figure figcaption { font-size: .75em; line-height: 1.5; }
 .module-figure img { height: auto; }
+.comparison-toggle { display: flex; gap: .5rem; flex-wrap: wrap; }
+.comparison-toggle button, #lumen-motion { padding: .6rem .8rem; border: 1px solid #286b9d; color: #20354c; background: #fff; font: inherit; cursor: pointer; }
+.comparison-toggle button[aria-pressed=true] { background: #20354c; color: #fff; }
+.comparison-numbers { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; padding: .8rem 0; border-block: 1px solid #abc4d7; }
+.comparison-numbers strong { display: block; color: #286b9d; font-size: 2em; }
+.comparison-numbers span { font-size: .8em; }
+.comparison-takeaway { line-height: 1.5; }
+.research-demo summary { cursor: pointer; color: #286b9d; }
 @media (max-width: 460px) { .replay-controls, .replay-results { grid-template-columns: 1fr; } }

@@ -33,9 +33,9 @@
 <li>Assess numerical convergence, local strain, and the physical limits of detector models.</li>
 </ul></div>
 <div class="expanded-content" id="vip-expanded" hidden>
-<figure class="module-figure"><img src="assets/gan-modeling.svg" alt="Conceptual map connecting atomic displacement, strain, and polarization with molecular dynamics and electronic-structure modeling"><figcaption>Original schematic based on the public capabilities of <a href="https://www.lammps.org/" target="_blank" rel="noopener noreferrer">LAMMPS</a> and <a href="https://www.quantum-espresso.org/" target="_blank" rel="noopener noreferrer">Quantum ESPRESSO</a>. Illustrative only, with no project data or device design.</figcaption></figure>
+<figure class="module-figure"><img src="assets/gan-modeling.svg" alt="Conceptual map connecting atomic displacement, strain, and polarization with molecular dynamics and electronic-structure modeling"><figcaption>Illustration of two complementary tools: <a href="https://www.lammps.org/" target="_blank" rel="noopener noreferrer">LAMMPS</a> and <a href="https://www.quantum-espresso.org/" target="_blank" rel="noopener noreferrer">Quantum ESPRESSO</a>. A conceptual illustration, not a measured result or detector design.</figcaption></figure>
 
-<p class="expanded-description">I lead the simulation subteam in Georgia Tech's Compound Semiconductor Products VIP partnership with Sandia National Laboratories. Our modeling connects GaN strain and polarization with atomic recoil dynamics through Quantum ESPRESSO calculations and LAMMPS simulations. Static material-response calculations, controlled recoil studies, and time-step and cell-size checks establish the numerical basis for evaluating detector concepts. The scope is material response and detector feasibility, with electrical detection performance dependent on device geometry, bias, source conditions, and readout.</p>
+<p class="expanded-description">I lead the simulation subteam in Georgia Tech's Compound Semiconductor Products VIP partnership with Sandia National Laboratories. We study how atomic motion and distortion in gallium nitride change its electrical properties, helping evaluate ideas for neutron detection. My work connects atomic-motion simulations with calculations of the material's electrical response and checks how sensitive the results are to numerical choices.</p>
 <button class="collapse-button" type="button">[Collapse VIP]</button>
 </div>
 </div>
@@ -52,7 +52,7 @@
 <li>Studied when to stop requesting annotations while retaining predictive performance.</li>
 </ul></div>
 <div class="expanded-content" id="tcnj-expanded" hidden>
-<figure class="module-figure"><img src="assets/stabilizing-predictions.svg" alt="Three model snapshots predicting labels for the same eight unlabeled examples, with predictions stabilizing across rounds"><figcaption>Original teaching diagram of SP from <a href="https://aclanthology.org/W09-1107/" target="_blank" rel="noopener noreferrer">Bloodgood and Vijay-Shanker (2009)</a>. The example labels are illustrative, not experimental results. SP uses Cohen's kappa over a window of comparisons. Stable predictions do not guarantee accuracy.</figcaption></figure>
+<figure class="module-figure"><img src="assets/stabilizing-predictions.svg" alt="Three model snapshots predicting labels for the same eight unlabeled examples, with predictions stabilizing across rounds"><figcaption>The idea behind stabilizing predictions, from <a href="https://aclanthology.org/W09-1107/" target="_blank" rel="noopener noreferrer">Bloodgood and Vijay-Shanker (2009)</a>. The example labels are illustrative, not experimental results. The method compares successive predictions on the same examples and checks whether their agreement stays high. Consistency alone does not guarantee correct predictions.</figcaption></figure>
 
 <p class="expanded-description">During my freshman year at The College of New Jersey, I worked with Dr. Michael Bloodgood on stopping criteria for active learning using small-text. The research examined when a learner can stop requesting annotations while retaining predictive performance. This experience motivated LastLabel, my subsequent independent study of published stopping methods under annotation noise and alternative stop-set constructions.</p>
 <button class="collapse-button" type="button">[Collapse TCNJ research]</button>
@@ -63,15 +63,16 @@
 <div class="entry-trigger" role="button" tabindex="0" aria-expanded="false" aria-controls="nano-pv-expanded">
 <h3>Nano PV Solar</h3>
 <p class="meta">Internship experience / Three years<br>Company contact: <a href="mailto:info@nano-pv.com" style="color:inherit;text-decoration:none">info@nano-pv.com</a></p>
-<p class="overview">Internship experience in photovoltaic technology</p>
+<p class="overview">Computational characterization of photovoltaic device performance</p>
 </div>
 <div class="entry-content">
 <div class="entry-bullets" role="button" tabindex="0" aria-label="Explore Nano PV Solar" aria-expanded="false" aria-controls="nano-pv-expanded"><ul>
-<li>Completed three years of internship experience at Nano PV Solar.</li>
+<li>Developed a Python analysis framework for current-voltage characterization, extracting device parameters and comparing measured response with fitted models.</li>
+<li>Evaluated parameter sensitivity and measurement variability across test conditions to distinguish device trends from testing artifacts.</li>
 </ul></div>
 <div class="expanded-content" id="nano-pv-expanded" hidden>
 
-<p class="expanded-description">My three-year internship at Nano PV Solar provided experience in photovoltaic technology, complementing my academic interests in semiconductor research and physical modeling.</p>
+<p class="expanded-description">Across three years at Nano PV Solar, I developed Python tools to analyze solar-cell measurements and compare them with device models. I examined how test conditions and measurement variability affect the extracted parameters, helping distinguish changes in device behavior from testing artifacts.</p>
 <button class="collapse-button" type="button">[Collapse Nano PV Solar]</button>
 </div>
 </div>
@@ -90,7 +91,7 @@
 <li>Analyzed paired cost-performance differences, budget fallbacks, noise interactions, and stopping-convention sensitivity.</li>
 </ul></div>
 <div class="expanded-content" id="lastlabel-expanded" hidden><div class="research-demo" id="lastlabel-replay" aria-label="LastLabel experiment replay"><p>Loading saved experiment...</p></div>
-<p class="expanded-description">LastLabel is an independent empirical study inspired by my earlier work with Dr. Michael Bloodgood. It evaluates methods by Bloodgood and his coauthors using small-text, simulated annotation noise, and alternative stop sets. The completed study includes 15,360 trajectories, paired uncertainty estimates, budget and sampling ablations, and a technical report. Annotation savings sometimes accompany lower predictive performance, while some equal outcomes reflect shared budget fallback. Four text tasks share one corpus, and the findings are descriptive rather than a universal ranking or a new stopping algorithm. <a href="https://github.com/ReegoJA/lastlabel/releases/tag/v0.4.0" target="_blank" rel="noopener noreferrer">Study release and reproducible results ↗</a></p>
+<p class="expanded-description">LastLabel is my independent study of when a learning system should stop requesting human labels. Building on methods by Dr. Michael Bloodgood and his coauthors, I compared labeling effort with performance on unseen examples across 15,360 training runs. The experiments examine incorrect labels and different ways of checking whether learning has settled. Saving labels can also mean giving up performance, and the best stopping point depends on the task. <a href="https://github.com/ReegoJA/lastlabel/releases/tag/v0.4.0" target="_blank" rel="noopener noreferrer">Study, methods, and full results ↗</a></p>
 <button class="collapse-button" type="button">[Collapse Last Label]</button>
 </div>
 </div>
@@ -124,9 +125,8 @@
 <li>Built a multithreaded CPU path tracer with BVH traversal, area lights, and multiple importance sampling.</li>
 <li>Implemented a CUDA wavefront backend and progressive OpenGL viewer.</li>
 </ul></div>
-<div class="expanded-content" id="lumen-expanded" hidden>
-<figure class="module-figure"><img src="assets/lumen-cornell.png" alt="LUMEN Cornell scene, rendered on the CPU at 128 samples per pixel." loading="lazy"><figcaption>LUMEN Cornell scene, rendered on the CPU at 128 samples per pixel.</figcaption></figure>
-<p class="expanded-description">LUMEN is a physically based path tracer for procedural scenes containing diffuse surfaces, ideal mirrors, and glass. Its multithreaded C++ renderer combines BVH traversal, area-light sampling, and multiple importance sampling. Deterministic sample streams and linear image output support reproducible error comparisons. The implementation also includes a CUDA wavefront backend and an OpenGL frontend for progressively displaying CPU renders. <a href="https://github.com/ReegoJA/lumen" target="_blank" rel="noopener noreferrer">Source code and rendering benchmarks ↗</a></p>
+<div class="expanded-content" id="lumen-expanded" hidden><figure class="module-figure"><img id="lumen-animation" src="assets/lumen-light-still.png" alt="Rendered room with two blocks, showing how a moving ceiling light changes shadows and reflected color" width="256" height="256"><figcaption>Same room, moving light. Watch shadows shift and colored walls reflect light onto nearby surfaces. Each frame is rendered by LUMEN.</figcaption></figure><button type="button" id="lumen-motion" aria-pressed="false">Move the light</button>
+<p class="expanded-description">LUMEN builds images by following simulated light as it bounces around a scene. That produces soft shadows, reflections, and glass effects from the same lighting model. I built CPU and GPU renderers and compared their output and rendering time. The animation uses saved renders, so it plays without a powerful graphics card. <a href="https://github.com/ReegoJA/lumen" target="_blank" rel="noopener noreferrer">Source code and rendering benchmarks ↗</a></p>
 <button class="collapse-button" type="button">[Collapse LUMEN]</button>
 </div>
 </div>
