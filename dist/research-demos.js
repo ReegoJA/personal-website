@@ -7,72 +7,62 @@ function element(tag, text, attributes = {}) {
   return result;
 }
 
-function svgElement(tag, attributes, text = '') {
-  const result = document.createElementNS('http://www.w3.org/2000/svg', tag);
-  for (const [key, value] of Object.entries(attributes)) result.setAttribute(key, value);
-  result.textContent = text;
-  return result;
-}
-
-function drawCurve(record, outcome) {
-  const chart = svgElement('svg', {viewBox: '0 0 560 290', role: 'img', 'aria-label': 'Learning curve showing test score versus examples labeled, with the selected stopping point'});
-  const x = labels => 56 + 478 * labels / 400;
-  const y = score => 240 - 200 * score;
-  for (const score of [0, .25, .5, .75, 1]) {
-    chart.append(svgElement('line', {x1: 56, x2: 534, y1: y(score), y2: y(score), stroke: '#d8e5ed'}));
-    chart.append(svgElement('text', {x: 46, y: y(score) + 4, 'text-anchor': 'end'}, String(score * 100)));
+function comparisonChart(example) {
+  const figure = element('div', '', {class: 'finding-bars'});
+  for (const [key, title, maximum, multiplier] of [['labels', 'Average labels requested / fewer means less work', 400, 1], ['macro_f1', 'Average test score / higher is better', 1, 100]]) {
+    figure.append(element('p', title, {class: 'finding-metric'}));
+    for (const [method, label] of [['fixed', 'Broad checking sample'], ['easy', 'Initially confident sample']]) {
+      const value = example.values[method][key];
+      const row = element('div', '', {class: 'finding-row'});
+      row.append(element('span', label));
+      const track = element('div', '', {class: 'finding-track', 'aria-hidden': 'true'});
+      const bar = element('div', '', {class: `finding-bar ${method}`});
+      bar.style.width = `${100 * value / maximum}%`;
+      track.append(bar);
+      row.append(track, element('strong', (value * multiplier).toFixed(1)));
+      figure.append(row);
+    }
   }
-  for (const labels of [0, 100, 200, 300, 400]) chart.append(svgElement('text', {x: x(labels), y: 259, 'text-anchor': 'middle'}, String(labels)));
-  chart.append(svgElement('text', {x: 56, y: 22}, 'Test score / higher is better'));
-  chart.append(svgElement('text', {x: 300, y: 284, 'text-anchor': 'middle'}, 'Examples labeled by a person'));
-  const points = rows => rows.map(row => `${x(row.labels)},${y(row.f1)}`).join(' ');
-  chart.append(svgElement('polyline', {points: points(record.trace), fill: 'none', stroke: '#a3b9c9', 'stroke-width': 2, 'stroke-dasharray': '4 4'}));
-  chart.append(svgElement('polyline', {points: points(record.trace.filter(row => row.labels <= outcome.labels)), fill: 'none', stroke: '#286b9d', 'stroke-width': 3}));
-  chart.append(svgElement('line', {x1: x(outcome.labels), x2: x(outcome.labels), y1: 40, y2: 240, stroke: '#a24f87', 'stroke-dasharray': '3 4'}));
-  chart.append(svgElement('circle', {cx: x(outcome.labels), cy: y(outcome.macro_f1), r: 6, fill: '#a24f87'}));
-  chart.append(svgElement('text', {x: Math.min(x(outcome.labels) + 8, 414), y: 55, fill: '#a24f87'}, outcome.stopped ? 'Training stops' : 'Label limit reached'));
-  return chart;
+  return figure;
 }
 
 async function setupComparison() {
   try {
-    const response = await fetch('assets/lastlabel-replay.json');
+    const response = await fetch('assets/lastlabel-findings.json');
     if (!response.ok) throw new Error('Unavailable');
     const data = await response.json();
-    const record = data.records.find(row => row.task === 'graphics-vs-windows' && row.config.noise === .3);
-    const controls = element('div', '', {class: 'comparison-toggle', role: 'group', 'aria-label': 'Examples used to judge progress'});
-    const chart = element('div', '', {class: 'replay-chart'});
-    const numbers = element('div', '', {class: 'comparison-numbers', 'aria-live': 'polite'});
-    const conclusion = element('p', '', {class: 'comparison-takeaway'});
-    const choices = [['fixed', 'A random sample'], ['easy', 'The easiest examples']];
-    const buttons = choices.map(([key, title]) => {
-      const button = element('button', title, {type: 'button', 'aria-pressed': 'false'});
-      button.addEventListener('click', () => choose(key));
-      controls.append(button);
-      return button;
-    });
-    function choose(key) {
-      const outcome = record.outcomes.find(row => row.rule === `pcf:${key}`);
-      buttons.forEach((button, index) => button.setAttribute('aria-pressed', String(choices[index][0] === key)));
-      chart.replaceChildren(drawCurve(record, outcome));
-      const work = element('div');
-      work.append(element('strong', String(outcome.labels)), element('span', 'examples labeled'));
-      const score = element('div');
-      score.append(element('strong', (100 * outcome.macro_f1).toFixed(1)), element('span', 'test score / 100'));
-      numbers.replaceChildren(work, score);
-      conclusion.textContent = key === 'easy'
-        ? 'Judging progress on easy examples stopped training after 100 labels. That saved 300 labels, but the test score was 13.4 points lower.'
-        : 'With a random sample, the stopping rule kept asking for labels until the 400-label limit. More labeling produced a higher test score in this run.';
+    const label = element('label', 'What is the model predicting?');
+    const select = element('select', '', {'aria-label': 'Prediction task'});
+    for (const example of data.cases) select.append(element('option', example.title, {value: example.task}));
+    label.append(select);
+    const chart = element('div');
+    const takeaway = element('p', '', {class: 'comparison-takeaway', 'aria-live': 'polite'});
+    const detail = element('details', '', {class: 'demo-caption'});
+    const intervals = element('p');
+    detail.append(element('summary', 'Evidence and uncertainty'), intervals,
+      element('p', '30 matched runs per task, 15% simulated labeling errors, a linear SVM, and the stabilizing-predictions stopping rule. The model chooses uncertain examples to label. Each comparison changes only the examples used to check whether predictions have settled. All six tasks from the published comparison are included.'),
+      element('p', 'The 95% ranges come from resampling matched runs. They are not adjusted for multiple comparisons. Four text tasks share one collection of articles. These results describe this experiment, not a universal best method.'),
+      element('a', 'Read the research findings ↗', {href: data.source, target: '_blank', rel: 'noopener noreferrer'}));
+    function draw() {
+      const example = data.cases.find(row => row.task === select.value);
+      const d = example.delta;
+      chart.replaceChildren(comparisonChart(example));
+      if (example.values.fixed.stopped === 0 && example.values.easy.stopped === 0) {
+        takeaway.textContent = 'No difference in this condition: both approaches reached the 400-label limit in all 30 runs. Equal results here do not mean either approach successfully detected when to stop.';
+      } else if (example.task.startsWith('synthetic')) {
+        takeaway.textContent = `Checking examples the model initially found easy saved ${(-d.labels_delta).toFixed(1)} labels on average, but reduced the test score by ${(-100 * d.f1_delta).toFixed(2)} points. Earlier stopping traded predictive performance for less labeling work.`;
+      } else {
+        takeaway.textContent = `The difference was small: ${(-d.labels_delta).toFixed(1)} fewer labels on average and ${(-100 * d.f1_delta).toFixed(2)} fewer test-score points. The large savings seen on simulated tasks did not carry over to this text task.`;
+      }
+      intervals.textContent = `Initially confident minus broad sample: labels ${d.labels_delta.toFixed(2)} (95% range ${d.labels_low.toFixed(2)} to ${d.labels_high.toFixed(2)}). Test score ${(100*d.f1_delta).toFixed(2)} points (95% range ${(100*d.f1_low).toFixed(2)} to ${(100*d.f1_high).toFixed(2)}).`;
     }
-    const details = element('details', '', {class: 'demo-caption'});
-    details.append(element('summary', 'About this example'), element('p', `Selected to illustrate a visible trade-off, not an average result. One saved text-classification run with 30% simulated labeling errors. Same training sequence and stopping rule in both views, only the checking sample changes. PCF rule, seed 100, ${record.id.split('/').at(-1)}. The dashed line shows what happened when training continued. Test scores never controlled stopping.`));
-    panel.replaceChildren(element('h4', 'When should the labeling stop?'),
-      element('p', 'A model learns from examples labeled by people. LastLabel studies when it can stop asking for more without sacrificing too much performance.'),
-      element('p', 'Judge its progress using:'), controls, chart, numbers, conclusion,
-      element('p', 'Key: test score = macro F1, a score balancing false alarms and missed cases, averaged across the two categories. It is not percent accuracy.', {class: 'demo-caption'}), details);
-    choose('fixed');
+    select.addEventListener('change', draw);
+    panel.replaceChildren(element('h4', 'What the experiments found'),
+      element('p', 'Can a model stop asking people for labels without losing useful predictive ability? These results compare two ways of checking whether its predictions have settled, averaged over 30 runs.'), label, chart, takeaway,
+      element('p', 'Key: checking sample = examples used to judge stability. Test score = macro F1 on a 0–100 scale, balancing false alarms and missed cases across both categories. It is not percent accuracy.', {class: 'demo-caption'}), detail);
+    draw();
   } catch {
-    panel.replaceChildren(element('p', 'The example could not load. The study release below contains the complete results.'));
+    panel.replaceChildren(element('p', 'The findings could not load. The study release below contains the complete results.'));
   }
 }
 

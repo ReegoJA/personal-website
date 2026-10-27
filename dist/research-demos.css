@@ -21,4 +21,10 @@
 .comparison-numbers span { font-size: .8em; }
 .comparison-takeaway { line-height: 1.5; }
 .research-demo summary { cursor: pointer; color: #286b9d; }
+.finding-metric { font-size: .85em; font-weight: bold; margin: 1.1rem 0 .5rem; }
+.finding-row { display: grid; grid-template-columns: 1fr 3.4rem; gap: .3rem .6rem; margin-bottom: .6rem; font-size: .8em; }
+.finding-row > span { grid-column: 1 / -1; }
+.finding-track { background: #e1eaf0; height: .8rem; align-self: center; }
+.finding-bar { height: 100%; background: #286b9d; }
+.finding-bar.easy { background: #a24f87; }
 @media (max-width: 460px) { .replay-controls, .replay-results { grid-template-columns: 1fr; } }

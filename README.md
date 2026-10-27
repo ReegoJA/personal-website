@@ -36,7 +36,7 @@ Research and project entries open in place, with each column expanding independe
 
 Research references:
 
-The LastLabel demo compares two saved outcomes from run-05781.json in the public v0.4.0 data: graphics versus Windows text classification, seed 100, 30% simulated symmetric label noise. The checking sample changes while the training sequence and PCF rule remain fixed. This example was selected to illustrate a clear trade-off, not to estimate the average effect. The source JSON retains 24 records and their release hashes for provenance.
+The LastLabel demo presents all six tasks from the main-study comparison: 30 matched seeds, linear SVM, uncertainty sampling, 15% symmetric noise, SP, initially confident versus fixed checking samples. Values and paired intervals are extracted from the committed summary and paired tables. The data file records their SHA-256 hashes. Results include adverse effects, small effects, and shared-budget fallbacks.
 
 The SP and GaN diagrams are original explanatory illustrations, not reproduced figures or experimental results. The GaN image contains no private project data. LUMEN's image is an actual CPU render from the [renderer](https://github.com/ReegoJA/lumen).
 
@@ -68,3 +68,5 @@ Portfolio code, design, and personal content: [all rights reserved](LICENSE). Th
 | October 26, 2026 | LastLabel experiment replay and original active-learning and GaN diagrams |
 
 | October 27, 2026 | Simplified research demonstrations, rendered light animation, and confirmed Nano PV experience |
+
+| October 27, 2026 | Task-based research findings and expanded technologies |

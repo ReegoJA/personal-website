@@ -2,33 +2,31 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import test from 'node:test';
 
-const data = JSON.parse(await readFile(new URL('../dist/assets/lastlabel-replay.json', import.meta.url)));
+const data = JSON.parse(await readFile(new URL('../dist/assets/lastlabel-findings.json', import.meta.url)));
 
-test('replay covers each task and noise level without outcome-based selection', () => {
-  assert.equal(data.records.length, 24);
-  const keys = new Set();
-  for (const record of data.records) {
-    assert.equal(record.config.seed, 100);
-    assert.equal(record.config.query, 'uncertainty');
-    assert.equal(record.config.learner, 'linear-svm');
-    assert.equal(record.config.noise_model, 'symmetric');
-    keys.add(`${record.task}:${record.config.noise}`);
-    assert.match(record.sha256, /^[a-f0-9]{64}$/);
-  }
-  assert.equal(keys.size, 24);
-  assert.equal(new Set(data.records.map(r => r.task)).size, 6);
+test('findings retain every task in the published 30-seed comparison', () => {
+  assert.equal(data.cases.length, 6);
+  assert.equal(new Set(data.cases.map(row => row.task)).size, 6);
+  assert.equal(data.seeds, 30);
+  for (const hash of Object.values(data.hashes)) assert.match(hash, /^[a-f0-9]{64}$/);
 });
 
-test('displayed decisions agree with their saved learning curves and budget', () => {
-  for (const record of data.records) {
-    assert.equal(record.trace.at(-1).labels, record.config.budget);
-    assert.equal(record.outcomes.length, 6);
-    for (const outcome of record.outcomes) {
-      const point = record.trace.find(p => p.labels === outcome.labels);
-      assert.ok(point);
-      assert.equal(point.f1, outcome.macro_f1);
-      assert.ok(Math.abs(outcome.label_savings - (1 - outcome.labels / record.config.budget)) < 1e-12);
-      if (!outcome.stopped) assert.equal(outcome.labels, record.config.budget);
-    }
+test('paired differences match displayed group means', () => {
+  for (const row of data.cases) {
+    assert.ok(Math.abs(row.values.easy.labels - row.values.fixed.labels - row.delta.labels_delta) < 1e-9);
+    assert.ok(Math.abs(row.values.easy.macro_f1 - row.values.fixed.macro_f1 - row.delta.f1_delta) < 1e-9);
+  }
+});
+
+test('published adverse and budget-fallback findings are preserved', () => {
+  const balanced = data.cases.find(row => row.task === 'synthetic-balanced');
+  assert.equal(balanced.delta.labels_delta.toFixed(2), '-114.67');
+  assert.equal((100 * balanced.delta.f1_delta).toFixed(2), '-4.00');
+  for (const task of ['baseball-vs-hockey', 'graphics-vs-windows']) {
+    const row = data.cases.find(value => value.task === task);
+    assert.equal(row.delta.labels_delta, 0);
+    assert.equal(row.delta.f1_delta, 0);
+    assert.equal(row.values.easy.stopped, 0);
+    assert.equal(row.values.fixed.stopped, 0);
   }
 });

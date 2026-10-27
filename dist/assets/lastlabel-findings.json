@@ -1,0 +1,156 @@
+{
+  "cases": [
+    {
+      "task": "synthetic-balanced",
+      "title": "Simulated class A vs class B (equal groups)",
+      "values": {
+        "fixed": {
+          "labels": 400.0,
+          "macro_f1": 0.7914537505897632,
+          "stopped": 0.0
+        },
+        "easy": {
+          "labels": 285.3333333333333,
+          "macro_f1": 0.7514617367554928,
+          "stopped": 0.4
+        }
+      },
+      "delta": {
+        "labels_delta": -114.66666666666667,
+        "labels_low": -163.33333333333334,
+        "labels_high": -62.0,
+        "f1_delta": -0.0399920138342704,
+        "f1_low": -0.06065247877690828,
+        "f1_high": -0.020309957039036635
+      }
+    },
+    {
+      "task": "synthetic-imbalanced",
+      "title": "Simulated class A vs class B (unequal groups)",
+      "values": {
+        "fixed": {
+          "labels": 398.6666666666667,
+          "macro_f1": 0.739672864818201,
+          "stopped": 0.06666666666666667
+        },
+        "easy": {
+          "labels": 290.6666666666667,
+          "macro_f1": 0.6895776878004055,
+          "stopped": 0.5
+        }
+      },
+      "delta": {
+        "labels_delta": -108.0,
+        "labels_low": -157.33333333333334,
+        "labels_high": -62.666666666666664,
+        "f1_delta": -0.05009517701779549,
+        "f1_low": -0.07995047075276238,
+        "f1_high": -0.026180491861415738
+      }
+    },
+    {
+      "task": "baseball-vs-hockey",
+      "title": "Baseball vs hockey articles",
+      "values": {
+        "fixed": {
+          "labels": 400.0,
+          "macro_f1": 0.8125815587993132,
+          "stopped": 0.0
+        },
+        "easy": {
+          "labels": 400.0,
+          "macro_f1": 0.8125815587993132,
+          "stopped": 0.0
+        }
+      },
+      "delta": {
+        "labels_delta": 0.0,
+        "labels_low": 0.0,
+        "labels_high": 0.0,
+        "f1_delta": 0.0,
+        "f1_low": 0.0,
+        "f1_high": 0.0
+      }
+    },
+    {
+      "task": "graphics-vs-windows",
+      "title": "Computer graphics vs Windows articles",
+      "values": {
+        "fixed": {
+          "labels": 400.0,
+          "macro_f1": 0.7473665796658202,
+          "stopped": 0.0
+        },
+        "easy": {
+          "labels": 400.0,
+          "macro_f1": 0.7473665796658202,
+          "stopped": 0.0
+        }
+      },
+      "delta": {
+        "labels_delta": 0.0,
+        "labels_low": 0.0,
+        "labels_high": 0.0,
+        "f1_delta": 0.0,
+        "f1_low": 0.0,
+        "f1_high": 0.0
+      }
+    },
+    {
+      "task": "politics-vs-religion",
+      "title": "Politics vs religion articles",
+      "values": {
+        "fixed": {
+          "labels": 400.0,
+          "macro_f1": 0.7107833245732343,
+          "stopped": 0.0
+        },
+        "easy": {
+          "labels": 398.0,
+          "macro_f1": 0.7103393120592335,
+          "stopped": 0.03333333333333333
+        }
+      },
+      "delta": {
+        "labels_delta": -2.0,
+        "labels_low": -6.0,
+        "labels_high": 0.0,
+        "f1_delta": -0.0004440125140006505,
+        "f1_low": -0.0013320375420019515,
+        "f1_high": 0.0
+      }
+    },
+    {
+      "task": "space-vs-medicine",
+      "title": "Space vs medicine articles",
+      "values": {
+        "fixed": {
+          "labels": 400.0,
+          "macro_f1": 0.8258225699247962,
+          "stopped": 0.03333333333333333
+        },
+        "easy": {
+          "labels": 395.3333333333333,
+          "macro_f1": 0.8248873258979581,
+          "stopped": 0.1
+        }
+      },
+      "delta": {
+        "labels_delta": -4.666666666666667,
+        "labels_low": -12.666666666666666,
+        "labels_high": 0.0,
+        "f1_delta": -0.0009352440268381039,
+        "f1_low": -0.002634497749340359,
+        "f1_high": 0.0
+      }
+    }
+  ],
+  "seeds": 30,
+  "noise": 0.15,
+  "method": "SP",
+  "source": "https://github.com/ReegoJA/lastlabel/blob/033d7f3/reports/main/FINDINGS.md",
+  "hashes": {
+    "summary.csv": "87da0d897163ea9903ce14d9ac732274da6509916dbf5d0fcf5f555c70bc7c3a",
+    "paired.csv": "89f30ff755dcfbbf6267e85761f8c7d589257285b044cdfa6333867ffa7bee20"
+  }
+}
