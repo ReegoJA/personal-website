@@ -23,3 +23,6 @@ li::before { content:"-"; position:absolute; left:0; color:var(--accent); }
 footer { border-top:.5pt solid #b7c1c7; margin:10pt 6pt 0; padding-top:6pt; font-size:7.2pt; line-height:8.7pt; color:#45647c; }
 @page { size:letter; margin:0; }
 @media print { body { background:white; } .page { margin:0; box-shadow:none; } * { print-color-adjust:exact; -webkit-print-color-adjust:exact; } }
+
+#sensorlab li { padding-left:0; }
+#sensorlab li::before { content:none; }
